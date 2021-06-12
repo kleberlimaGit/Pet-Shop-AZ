@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Cliente implements Serializable{
 	@Column(unique = true)
 	private String telefone;
 	
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
 	Set<Pet> pets = new HashSet<>();
 	
 	public Cliente() {

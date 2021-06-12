@@ -1,6 +1,7 @@
 INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Kleber Lima', '05123287574', '71988262661');
 INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Pedro Ricardo', '05187587574', '71982762661');
 INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Denise Souza', '05174587574', '71698262661');
+INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Batman', '05136587574', '71698269861');
 
 INSERT INTO RACA (tipo_raca) VALUES ('Pastor Alemão');
 INSERT INTO RACA (tipo_raca) VALUES ('Labrador');

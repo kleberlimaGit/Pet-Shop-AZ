@@ -17,7 +17,7 @@ import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
 
 @Service
 @Transactional
-public class ClienteService {
+public class PetService {
 	
 	@Autowired
 	private ClienteRepositorio repositorio;
