@@ -20,9 +20,6 @@ public class PetDTO implements Serializable{
 	@NotBlank(message = "campo raca não pode ser vazio.")
 	private Raca raca;
 	
-	@NotBlank(message = "campo cliente não pode ser vazio.")
-	private Cliente cliente;
-
 	public PetDTO() {
 		
 	}
@@ -31,14 +28,12 @@ public class PetDTO implements Serializable{
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
-		this.cliente = cliente;
 	}
 	
 	public PetDTO(Pet pets) {
 		id = pets.getId();
 		nome = pets.getNome();
 		raca = pets.getRaca();
-		cliente = pets.getCliente();
 	}
 
 	public Long getId() {
@@ -65,13 +60,6 @@ public class PetDTO implements Serializable{
 		this.raca = raca;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 	
 	
 	

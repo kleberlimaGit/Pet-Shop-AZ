@@ -16,7 +16,7 @@ public class Raca implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
+	@Column(unique = true,name = "tipo_raca")
 	private String tipoRaca;
 	
 	public Raca() {

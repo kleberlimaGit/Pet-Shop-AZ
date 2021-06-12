@@ -15,6 +15,8 @@ public interface ClienteRepositorio extends JpaRepository<Cliente, Long> {
 	@Query("SELECT DISTINCT obj from Cliente obj "
 			+ "join obj.pets pets "
 			+ "join pets.raca raca "
-			+ "WHERE :filtro IS NULL OR obj.nome LIKE :filtro OR pets.nome LIKE :filtro OR raca.tipoRaca LIKE :filtro")
+			+ "WHERE LOWER(obj.nome) LIKE LOWER(CONCAT('%', :filtro , '%' )) "
+			+ "OR LOWER(pets.nome) LIKE LOWER(CONCAT('%', :filtro , '%' )) "
+			+ "OR LOWER(raca.tipoRaca) LIKE LOWER(CONCAT('%', :filtro , '%' )) ")
 	Page<Cliente> BuscarClientePorNomeOuPetOuRaca(String filtro, Pageable pageable);
 }
