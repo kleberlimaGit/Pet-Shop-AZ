@@ -25,4 +25,6 @@ public interface ClienteRepositorio extends JpaRepository<Cliente, Long> {
 			+ "WHERE (:filtro IS NULL OR LOWER(obj.nome) LIKE LOWER(CONCAT('%', :filtro , '%' ))) ") 
 	Page<Cliente> BuscarClientePorNome(String filtro, Pageable pageable);
 	
+	
+	
 }

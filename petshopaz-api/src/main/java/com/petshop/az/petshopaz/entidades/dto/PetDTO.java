@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 
-import com.petshop.az.petshopaz.entidades.Cliente;
 import com.petshop.az.petshopaz.entidades.Pet;
-import com.petshop.az.petshopaz.entidades.Raca;
 
 public class PetDTO implements Serializable{
 
@@ -17,23 +15,27 @@ public class PetDTO implements Serializable{
 	@NotBlank(message = "campo nome não pode ser vazio.")
 	private String nome;
 	
-	@NotBlank(message = "campo raca não pode ser vazio.")
-	private Raca raca;
+//	@NotBlank(message = "campo raca não pode ser vazio.")
+	private RacaDTO raca;
 	
 	public PetDTO() {
 		
 	}
 
-	public PetDTO(Long id, String nome, Raca raca,Cliente cliente) {
+
+	
+	public PetDTO(Long id, String nome, RacaDTO raca) {
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
 	}
-	
+
+
+
 	public PetDTO(Pet pets) {
 		id = pets.getId();
 		nome = pets.getNome();
-		raca = pets.getRaca();
+		raca = new RacaDTO(pets.getRaca());
 	}
 
 	public Long getId() {
@@ -52,13 +54,15 @@ public class PetDTO implements Serializable{
 		this.nome = nome;
 	}
 
-	public Raca getRaca() {
+	public RacaDTO getRaca() {
 		return raca;
 	}
 
-	public void setRaca(Raca raca) {
+	public void setRaca(RacaDTO raca) {
 		this.raca = raca;
 	}
+
+
 
 	
 	

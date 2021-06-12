@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -27,7 +26,6 @@ public class ClienteDTO implements Serializable{
 	@NotBlank(message = "campo telefone não pode ser vazio.")
 	private String telefone;
 	
-	@OneToMany(mappedBy = "cliente")
 	Set<PetDTO> pets = new HashSet<>();
 
 	public ClienteDTO() {

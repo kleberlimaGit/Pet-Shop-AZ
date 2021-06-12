@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.petshop.az.petshopaz.entidades.Cliente;
 import com.petshop.az.petshopaz.entidades.dto.ClienteDTO;
 import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
+import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
+import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
 
 @Service
 @Transactional

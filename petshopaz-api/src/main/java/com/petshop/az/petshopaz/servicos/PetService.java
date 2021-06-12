@@ -6,71 +6,75 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.petshop.az.petshopaz.entidades.Cliente;
-import com.petshop.az.petshopaz.entidades.dto.ClienteDTO;
+import com.petshop.az.petshopaz.entidades.Pet;
+import com.petshop.az.petshopaz.entidades.Raca;
+import com.petshop.az.petshopaz.entidades.dto.PetDTO;
 import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
+import com.petshop.az.petshopaz.repositorios.PetRepositorio;
+import com.petshop.az.petshopaz.repositorios.RacaRepositorio;
+import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
+import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
 
 @Service
 @Transactional
 public class PetService {
 	
 	@Autowired
-	private ClienteRepositorio repositorio;
+	private PetRepositorio repositorio;
+	
+	@Autowired
+	private ClienteRepositorio clienteRepository;
+	
+	@Autowired
+	private RacaRepositorio racaRepository;
+	
+
 	
 	@Transactional(readOnly = true)
-	public Page<ClienteDTO> BuscaPaginada(String filtro, PageRequest pageRequest){
-		Page<Cliente> page;
-		if(filtro.isBlank() || !repositorio.BuscarClientePorNome(filtro, pageRequest).isEmpty()){
-			 page = repositorio.BuscarClientePorNome(filtro, pageRequest);
-		}else {
-			page = repositorio.BuscarClientePorPetOuRaca(filtro, pageRequest);
-		}
+	public PetDTO buscarPorId(Long id) {
+		Optional<Pet> obj = repositorio.findById(id);
+		Pet pet = obj.orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
 		
-//		repositorio.buscarClientesComPet(page.getContent());
-		
-		return page.map(cliente -> new ClienteDTO(cliente));
+		return new PetDTO(pet);
 	}
 	
-	@Transactional(readOnly = true)
-	public ClienteDTO buscarPorId(Long id) {
-		Optional<Cliente> obj = repositorio.findById(id);
-		Cliente cliente = obj.orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+	public PetDTO inserirPet(Long idCliente, PetDTO petDto) {
+		Pet pet = new Pet();
+		Cliente cliente = clienteRepository.getOne(idCliente);
+		Raca raca = racaRepository.getOne(petDto.getRaca().getId());
+		pet.setNome(petDto.getNome());
+		pet.setRaca(raca);
+		pet.setCliente(cliente);
+		pet = repositorio.save(pet);
 		
-		return new ClienteDTO(cliente);
+		return new PetDTO(pet);
 	}
 	
-	public ClienteDTO inserirCliente(ClienteDTO dto) {
-		Cliente cliente = new Cliente();
-		copiarEntidade(dto, cliente);
-		cliente = repositorio.save(cliente);
-		
-		return new ClienteDTO(cliente);
-	}
-	
-	public ClienteDTO atualizarCliente(Long id, ClienteDTO dto) {
+	public PetDTO atualizarPet(Long id, PetDTO petDto) {
 		try {
-			Cliente cliente = repositorio.getOne(id);
-			copiarEntidade(dto, cliente);
-			cliente = repositorio.save(cliente);
+			Raca raca = racaRepository.getOne(petDto.getRaca().getId());
+			Pet pet = repositorio.getOne(id);
+			pet.setNome(petDto.getNome());
+			pet.setRaca(raca);
+			pet = repositorio.save(pet);
 			
-			return new ClienteDTO(cliente);
+			return new PetDTO(pet);
 		}
 		catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+			throw new ResourceNotFoundException("Pet não encontrado. " + id);
 		}
 	}
 	
-	public void deletarCliente(Long id) {
+	public void deletarPet(Long id) {
 		try {
 			repositorio.deleteById(id);
 		}
 		catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+			throw new ResourceNotFoundException("Pet não encontrado. " + id);
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violação de integridade");
@@ -78,9 +82,4 @@ public class PetService {
 	}
 	
 	
-	private void copiarEntidade(ClienteDTO dto, Cliente cliente) {
-		cliente.setNome(dto.getNome());
-		cliente.setCpf(dto.getCpf());
-		cliente.setTelefone(dto.getTelefone());
-	}
 }
