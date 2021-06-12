@@ -1,6 +1,11 @@
 package com.petshop.az.petshopaz.servicos;
 
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,5 +30,53 @@ public class ClienteService {
 		Page<ClienteDTO> pageDto = page.map(cliente -> new ClienteDTO(cliente));
 		
 		return pageDto;
+	}
+	
+	@Transactional(readOnly = true)
+	public ClienteDTO buscarPorId(Long id) {
+		Optional<Cliente> obj = repositorio.findById(id);
+		Cliente cliente = obj.orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+		
+		return new ClienteDTO(cliente);
+	}
+	
+	public ClienteDTO inserirCliente(ClienteDTO dto) {
+		Cliente cliente = new Cliente();
+		copiarEntidade(dto, cliente);
+		cliente = repositorio.save(cliente);
+		
+		return new ClienteDTO(cliente);
+	}
+	
+	public ClienteDTO atualizarCliente(Long id, ClienteDTO dto) {
+		try {
+			Cliente cliente = repositorio.getOne(id);
+			copiarEntidade(dto, cliente);
+			cliente = repositorio.save(cliente);
+			
+			return new ClienteDTO(cliente);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+		}
+	}
+	
+	public void deletarCliente(Long id) {
+		try {
+			repositorio.deleteById(id);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Violação de integridade");
+		}
+	}
+	
+	
+	private void copiarEntidade(ClienteDTO dto, Cliente cliente) {
+		cliente.setNome(dto.getNome());
+		cliente.setCpf(dto.getCpf());
+		cliente.setTelefone(dto.getTelefone());
 	}
 }
