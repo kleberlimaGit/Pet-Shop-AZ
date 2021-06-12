@@ -5,10 +5,10 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 
 import com.petshop.az.petshopaz.entidades.Cliente;
-import com.petshop.az.petshopaz.entidades.Pets;
+import com.petshop.az.petshopaz.entidades.Pet;
 import com.petshop.az.petshopaz.entidades.Raca;
 
-public class PetsDTO implements Serializable{
+public class PetDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -23,18 +23,18 @@ public class PetsDTO implements Serializable{
 	@NotBlank(message = "campo cliente não pode ser vazio.")
 	private Cliente cliente;
 
-	public PetsDTO() {
+	public PetDTO() {
 		
 	}
 
-	public PetsDTO(Long id, String nome, Raca raca,Cliente cliente) {
+	public PetDTO(Long id, String nome, Raca raca,Cliente cliente) {
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
 		this.cliente = cliente;
 	}
 	
-	public PetsDTO(Pets pets) {
+	public PetDTO(Pet pets) {
 		id = pets.getId();
 		nome = pets.getNome();
 		raca = pets.getRaca();

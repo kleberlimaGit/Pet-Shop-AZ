@@ -26,7 +26,7 @@ public class Cliente implements Serializable{
 	private String telefone;
 	
 	@OneToMany(mappedBy = "cliente")
-	Set<Pets> pets = new HashSet<>();
+	Set<Pet> pets = new HashSet<>();
 	
 	public Cliente() {
 		
@@ -73,7 +73,7 @@ public class Cliente implements Serializable{
 		this.telefone = telefone;
 	}
 
-	public Set<Pets> getPets() {
+	public Set<Pet> getPets() {
 		return pets;
 	}
 	

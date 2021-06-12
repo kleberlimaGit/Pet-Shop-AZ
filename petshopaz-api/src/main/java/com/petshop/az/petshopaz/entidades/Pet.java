@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Pets implements Serializable{
+public class Pet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,11 +27,11 @@ public class Pets implements Serializable{
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
-	public Pets() {
+	public Pet() {
 		
 	}
 
-	public Pets(Long id, String nome, Raca raca, Cliente cliente) {
+	public Pet(Long id, String nome, Raca raca, Cliente cliente) {
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
@@ -87,7 +87,7 @@ public class Pets implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pets other = (Pets) obj;
+		Pet other = (Pet) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

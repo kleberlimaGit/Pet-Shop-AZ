@@ -28,7 +28,7 @@ public class ClienteDTO implements Serializable{
 	private String telefone;
 	
 	@OneToMany(mappedBy = "cliente")
-	Set<PetsDTO> pets = new HashSet<>();
+	Set<PetDTO> pets = new HashSet<>();
 
 	public ClienteDTO() {
 		
@@ -46,7 +46,7 @@ public class ClienteDTO implements Serializable{
 		nome = cliente.getNome();
 		cpf = cliente.getCpf();
 		telefone = cliente.getTelefone();
-		cliente.getPets().forEach(pet -> this.pets.add(new PetsDTO(pet)));
+		cliente.getPets().forEach(pet -> this.pets.add(new PetDTO(pet)));
 	}
 
 	public Long getId() {
@@ -81,7 +81,7 @@ public class ClienteDTO implements Serializable{
 		this.telefone = telefone;
 	}
 
-	public Set<PetsDTO> getPets() {
+	public Set<PetDTO> getPets() {
 		return pets;
 	}
 	
