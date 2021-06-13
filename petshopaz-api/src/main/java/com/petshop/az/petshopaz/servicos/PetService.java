@@ -5,7 +5,7 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,6 @@ import com.petshop.az.petshopaz.entidades.dto.PetDTO;
 import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
 import com.petshop.az.petshopaz.repositorios.PetRepositorio;
 import com.petshop.az.petshopaz.repositorios.RacaRepositorio;
-import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
 import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
 
 @Service
@@ -73,11 +72,8 @@ public class PetService {
 		try {
 			repositorio.deleteById(id);
 		}
-		catch (EntityNotFoundException e) {
+		catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Pet não encontrado. " + id);
-		}
-		catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Violação de integridade");
 		}
 	}
 	

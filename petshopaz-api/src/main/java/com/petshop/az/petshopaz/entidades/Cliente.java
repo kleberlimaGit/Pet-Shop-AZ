@@ -20,10 +20,14 @@ public class Cliente implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String nome;
-	@Column(unique = true)
+	
+	@Column(unique = true, nullable = false)
 	private String cpf;
-	@Column(unique = true)
+	
+	@Column(unique = true, nullable = false)
 	private String telefone;
 	
 	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)

@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,10 @@ public class ClienteService {
 	@Transactional(readOnly = true)
 	public Page<ClienteDTO> BuscaPaginada(String filtro, PageRequest pageRequest){
 		Page<Cliente> page;
-		if(filtro.isBlank() || !repositorio.BuscarClientePorNome(filtro, pageRequest).isEmpty()){
-			 page = repositorio.BuscarClientePorNome(filtro, pageRequest);
+		if(filtro.isBlank() || !repositorio.buscarClientePorNome(filtro, pageRequest).isEmpty()){
+			 page = repositorio.buscarClientePorNome(filtro, pageRequest);
 		}else {
-			page = repositorio.BuscarClientePorPetOuRaca(filtro, pageRequest);
+			page = repositorio.buscarClientePorPetOuRaca(filtro, pageRequest);
 		}
 		
 //		repositorio.buscarClientesComPet(page.getContent());
@@ -63,7 +64,7 @@ public class ClienteService {
 			return new ClienteDTO(cliente);
 		}
 		catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+			throw new ResourceNotFoundException("Cliente não encontrado. id: " + id);
 		}
 	}
 	
@@ -71,10 +72,12 @@ public class ClienteService {
 		try {
 			repositorio.deleteById(id);
 		}
-		catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Cliente não encontrado. " + id);
+		
+		catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Cliente não encontrado. id: " + id);
 		}
-		catch (DataIntegrityViolationException e) {
+		
+		catch (DataIntegrityViolationException  e) {
 			throw new DatabaseException("Violação de integridade");
 		}
 	}

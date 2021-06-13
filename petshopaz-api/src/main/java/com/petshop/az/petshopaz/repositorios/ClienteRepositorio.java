@@ -19,11 +19,11 @@ public interface ClienteRepositorio extends JpaRepository<Cliente, Long> {
 			+ "LOWER(pets.nome) LIKE LOWER(CONCAT('%', :filtro , '%' )) "
 			+ "OR LOWER(raca.tipoRaca) LIKE LOWER(CONCAT('%', :filtro , '%' )) "
 			+ "")
-	Page<Cliente> BuscarClientePorPetOuRaca(String filtro, Pageable pageable);
+	Page<Cliente> buscarClientePorPetOuRaca(String filtro, Pageable pageable);
 	
 	@Query("SELECT DISTINCT obj from Cliente obj "
 			+ "WHERE (:filtro IS NULL OR LOWER(obj.nome) LIKE LOWER(CONCAT('%', :filtro , '%' ))) ") 
-	Page<Cliente> BuscarClientePorNome(String filtro, Pageable pageable);
+	Page<Cliente> buscarClientePorNome(String filtro, Pageable pageable);
 	
 	
 	

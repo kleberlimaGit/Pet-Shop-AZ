@@ -1,9 +1,9 @@
 package com.petshop.az.petshopaz.servicos.exceptions;
 
-public class DatabaseException extends RuntimeException{
+public class ResultDataAccessException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public DatabaseException(String msg) {
+	public ResultDataAccessException(String msg) {
 		super(msg);
 	}
 }
