@@ -1,0 +1,14 @@
+.imagem-svg {
+    width: 400px;
+    height: 400px;
+
+    margin-top: 100px;
+}
+
+.bg-container{
+    background-color: #96c0b7;
+    height: calc(100vh - 76px);
+}
+.btn-color{
+   text-transform: uppercase;
+}

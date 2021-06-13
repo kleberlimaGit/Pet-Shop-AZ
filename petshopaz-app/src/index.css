@@ -53,6 +53,9 @@ html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 article,
 aside,
@@ -77,6 +80,7 @@ body {
   color: #444;
   text-align: left;
   background-color: #fff;
+  overflow-x: hidden;
 }
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;

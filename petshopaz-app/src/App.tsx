@@ -1,8 +1,9 @@
-import Navbar from "./core/components/NavBar";
+import Routes from "./Routes";
+
 
 const App = () => {
     return (
-        <Navbar/>
+        <Routes/>
     )
 }
 

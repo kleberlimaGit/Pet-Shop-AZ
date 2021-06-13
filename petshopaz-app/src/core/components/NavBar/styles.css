@@ -2,3 +2,9 @@ svg{
     width: 80px;
     height: 60px;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+
