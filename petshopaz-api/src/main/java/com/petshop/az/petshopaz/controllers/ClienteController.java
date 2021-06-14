@@ -34,7 +34,7 @@ public class ClienteController {
 	public ResponseEntity<Page<ClienteDTO>> buscarTodosClientes(
 			@RequestParam(value = "filtro", defaultValue = "") String filtro,
 			@RequestParam(value = "page", defaultValue = "0") Integer pagina,
-			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linhasPorPagina,
+			@RequestParam(value = "linesPerPage", defaultValue = "9") Integer linhasPorPagina,
 			@RequestParam(value = "direction", defaultValue = "DESC") String direction,
 			@RequestParam(value = "orderBy", defaultValue = "id") String orderBy){
 			PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direction), orderBy);
