@@ -1,0 +1,14 @@
+.style-link{
+    color: #fff;
+    transition: color 200ms;
+    cursor: pointer;
+    
+}
+.style-link:hover{
+    color: var(--warning);
+    transition: color 200ms;
+}
+
+.card-container{
+    width: 20rem;
+}

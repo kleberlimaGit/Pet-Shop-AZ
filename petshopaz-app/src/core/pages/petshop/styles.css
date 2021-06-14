@@ -1,10 +1,4 @@
-.cliente-container{
-width: 100vw;
-padding: 0px 40px;
-}
-.card-container{
-    max-width: 20rem;
-}
+
 .link-style{
     color: #fff;
     transition: color 200ms;
