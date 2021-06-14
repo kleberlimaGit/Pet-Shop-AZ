@@ -16,7 +16,7 @@ const ClientCard = ({ cliente }: Props) => (
   <div className="mt-5 col-lg-4 col-md-6 d-flex justify-content-center ">
     <div className="card text-white bg-primary mb-3 card-container rounded shadow">
       <div className="card-header text-white h5 style-link">
-        <Link to={`/cliente/${cliente.id}`} className="style-link text-decoration-none">{cliente.nome}</Link>
+        <Link to={`/clientes/${cliente.id}`} className="style-link text-decoration-none">{cliente.nome}</Link>
           
       </div>
       <div className="card-body">
