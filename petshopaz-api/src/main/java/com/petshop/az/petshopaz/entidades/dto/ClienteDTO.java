@@ -20,7 +20,7 @@ public class ClienteDTO implements Serializable{
 	private String nome;
 	
 	@NotBlank(message = "campo cpf não pode ser vazio.")
-	@CPF(message = "Digite um cpf válido")
+//	@CPF(message = "Digite um cpf válido")
 	private String cpf;
 	
 	@NotBlank(message = "campo telefone não pode ser vazio.")

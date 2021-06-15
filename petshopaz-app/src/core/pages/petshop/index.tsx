@@ -14,7 +14,8 @@ import Pagination from "@material-ui/lab/Pagination";
 import "./styles.css";
 const Petshop = () => {
   const [clienteResponse, setClienteResponse] = useState<ClienteResponse>();
-  const [activePage, setActivePage] = useState(0);
+  const initialPage = () => Number(window.sessionStorage.getItem("page") || null)
+  const [activePage, setActivePage] = useState(initialPage);
   const [filtro, setFiltro] = useState("");
 
   const buscarCards = useCallback(() => {
@@ -22,7 +23,7 @@ const Petshop = () => {
       page: activePage,
       filtro,
     };
-
+    window.sessionStorage.setItem("page",String(activePage))
     makeRequest({ url: "/clientes", params }).then((response) =>
       setClienteResponse(response.data)
     );
@@ -37,10 +38,13 @@ const Petshop = () => {
     setFiltro(filtro);
   };
 
+  const handleResetSession = () => window.sessionStorage.removeItem("page")
+
+
   return (
     <div className="container" style={{ marginTop: "8rem" }}>
       <div className="d-flex justify-content-center align-items-center mb-5 mt-2 flex-sm-row flex-column">
-        <Link to="/clientes/cadastrar" className="text-decoration-none">
+        <Link to="/clientes/cadastrar" className="text-decoration-none"  onClick={handleResetSession}>
           <p className="mr-sm-5 mr-0 h4 text-center link-style">
             Cadastrar Cliente{" "}
             <FontAwesomeIcon icon={faUserPlus} className="ml-1" />
@@ -49,7 +53,7 @@ const Petshop = () => {
 
         <Link to="/clientes/raca/cadastrar" className="text-decoration-none">
           <p className=" h4 text-center mt-1 link-style">
-            Cadastrar Raça <FontAwesomeIcon icon={faBone} className="ml-1" />
+            Cadastrar Raça <FontAwesomeIcon icon={faBone} className="ml-1"  onClick={handleResetSession}/>
           </p>
         </Link>
       </div>

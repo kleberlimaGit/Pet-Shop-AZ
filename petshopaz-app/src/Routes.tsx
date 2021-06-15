@@ -14,10 +14,10 @@ const Routes = () => (
         <Route path="/clientes" exact>
             <Petshop/>
         </Route>
-        <Route path="/clientes/cadastrar">
+        <Route path="/clientes/:idCliente">
             <DetalheCliente/>
         </Route>
-        <Route path="/clientes/raca/cadastrar">
+        <Route path="/clientes/raca/:idRaca">
             <CadastrarRaca/>
         </Route>
         

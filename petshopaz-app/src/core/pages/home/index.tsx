@@ -10,8 +10,8 @@ const Home = () => (
                 <Welcome className="imagem-svg"/>
                 
                 <Link to="/clientes">
-                <button className="btn btn-primary btn-lg rounded-lg btn-color" 
-                style={{color: "#fef6c9"}} >
+                <button className="btn btn-primary btn-lg rounded-lg text-white btn-color" 
+                 >
                     <strong>Acessar Lista de Clientes</strong>
                     <FontAwesomeIcon icon={faPaw} className="ml-2" />
                 </button>
