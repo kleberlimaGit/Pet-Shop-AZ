@@ -4,6 +4,7 @@ import Home from './core/pages/home';
 import Petshop from './core/pages/petshop';
 import CadastrarRaca from './core/pages/petshop/components/CadastrarRaca';
 import DetalheCliente from './core/pages/petshop/components/DetalheCliente';
+import Pets from './core/pages/petshop/components/CadastroPets';
 const Routes = () => (
 <BrowserRouter>
 <Navbar/>
@@ -17,9 +18,13 @@ const Routes = () => (
         <Route path="/clientes/:idCliente" exact>
             <DetalheCliente/>
         </Route>
+        <Route path="/clientes/:idCliente/pets" exact>
+            <Pets/>
+        </Route>
         <Route path="/racas/:idRaca" exact>
             <CadastrarRaca/>
         </Route>
+        
         
     </Switch>
 </BrowserRouter>

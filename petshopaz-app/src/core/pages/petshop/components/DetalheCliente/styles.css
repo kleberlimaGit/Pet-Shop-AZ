@@ -3,3 +3,49 @@
     height: 30rem;
 }
 
+.control-add-pet{
+    position: relative;
+}
+
+
+
+
+@media  (max-width: 767px) {
+    .add-pet-svg{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+    }
+}
+
+@media  (min-width: 768px) {
+    .add-pet-svg{
+        position: absolute;
+        top: 2rem;
+        left: 0;
+
+    }
+}
+@media  (min-width: 992px) {
+    .add-pet-svg{
+        position: absolute;
+        top: -1rem;
+        left: 0;
+
+    }
+}
+
+@media  (min-width: 1200px) {
+    .add-pet-svg{
+        position: absolute;
+        top: -2rem;
+        left: 2rem;
+
+    }
+}
+
+
+
+
+

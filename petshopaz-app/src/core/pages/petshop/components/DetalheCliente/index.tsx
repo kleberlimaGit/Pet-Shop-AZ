@@ -1,5 +1,6 @@
 import { faPaw, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { ReactComponent as HomemDog } from "../../../../assets/image/mandog.svg";
+import { ReactComponent as AddPet} from '../../../../assets/image/add-pet.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -217,9 +218,9 @@ const DetalheCliente = () => {
           </form>
         </div>
 
-        <div className="col-md-6 d-flex justify-content-center order-first">
+        <div className="col-md-6 d-flex justify-content-center order-first control-add-pet">
           <HomemDog className="cad-svg" />
-          
+          <Link to="/clientes/1/pets"><AddPet className="add-pet-svg"/></Link>
         </div>
         
       </div>

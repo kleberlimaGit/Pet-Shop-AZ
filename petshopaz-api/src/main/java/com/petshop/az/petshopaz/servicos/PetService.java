@@ -6,6 +6,8 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,16 @@ public class PetService {
 	private RacaRepositorio racaRepository;
 	
 
+	
+	
+		
+		@Transactional(readOnly = true)
+		public Page<PetDTO> BuscaPaginada(Long idCliente, PageRequest pageRequest){
+			Page<Pet> page = repositorio.findByClienteId(idCliente,pageRequest);
+			
+			return page.map(pet -> new PetDTO(pet));
+		}
+	
 	
 	@Transactional(readOnly = true)
 	public PetDTO buscarPorId(Long id) {
