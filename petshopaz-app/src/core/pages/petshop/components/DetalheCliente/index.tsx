@@ -8,7 +8,8 @@ import { useHistory, useParams } from "react-router-dom";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../../../util/request";
-import { clear } from "console";
+
+
 
 type FormData = {
   nome: string;
@@ -68,12 +69,13 @@ const DetalheCliente = () => {
   };
 
   return (
+    
     <div className="container " style={{ marginTop: "15rem" }}>
       <h3 className="text-white text-uppercase">
         {isEditing ? "EDITAR" : "Cadastrar"} Cliente
       </h3>
       <div className="row">
-        <div className="col-md-6" style={{ marginTop: "2rem" }}>
+        <div className="col-md-6 order-md-first mb-5" style={{ marginTop: "2rem" }}>
           {hasError && (
             <div className="alert alert-danger mt-3 rounded font-weight-bold">
               Cpf ou número de celular já cadastrado.
@@ -81,7 +83,7 @@ const DetalheCliente = () => {
           )}
           {success && (
             <div className="alert alert-info mt-3 rounded font-weight-bold">
-                CLIENTE CADASTRADO COM SUCESSO.
+                CLIENTE {isEditing? 'EDITADO' : 'CADASTRADO'} COM SUCESSO.
             </div>
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,6 +121,7 @@ const DetalheCliente = () => {
                   {...register("cpf", {
                     required: true,
                     pattern: {
+                      // eslint-disable-next-line no-useless-escape
                       value: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
                       message: "CPF não esta num formato válido",
                     },
@@ -134,6 +137,7 @@ const DetalheCliente = () => {
                   {...register("cpf", {
                     required: true,
                     pattern: {
+                      // eslint-disable-next-line no-useless-escape
                       value: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
                       message: "CPF não esta num formato válido",
                     },
@@ -201,7 +205,7 @@ const DetalheCliente = () => {
 
             <div className="d-flex justify-content-between align-items-center mt-4">
               <button className="btn btn-primary btn-lg rounded ">
-                {isEditing ? "SALVAR" : "CADASTRAR"}{" "}
+                {isEditing ? "SALVAR" : "CADASTRAR"}
                 <FontAwesomeIcon icon={faPaw} className="ml-2" />
               </button>
 
@@ -213,11 +217,15 @@ const DetalheCliente = () => {
           </form>
         </div>
 
-        <div className="col-md-6 d-flex justify-content-center">
+        <div className="col-md-6 d-flex justify-content-center order-first">
           <HomemDog className="cad-svg" />
+          
         </div>
+        
       </div>
     </div>
+    
+    
   );
 };
 

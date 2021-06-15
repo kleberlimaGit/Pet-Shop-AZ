@@ -4,10 +4,10 @@ INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Denise Souza', '051.745.875-74'
 INSERT INTO CLIENTE (nome,cpf,telefone) VALUES ('Andre Ferraz', '051.35.875-74', '71 99826-9861');
 
 
-INSERT INTO RACA (tipo_raca) VALUES ('Pastor Alemão');
-INSERT INTO RACA (tipo_raca) VALUES ('Labrador');
-INSERT INTO RACA (tipo_raca) VALUES ('Bulldog');
-INSERT INTO RACA (tipo_raca) VALUES ('Pitbull');
+INSERT INTO RACA (tipo_raca) VALUES ('PASTOR ALEMÃO');
+INSERT INTO RACA (tipo_raca) VALUES ('LABRADOR');
+INSERT INTO RACA (tipo_raca) VALUES ('BULLDOG');
+INSERT INTO RACA (tipo_raca) VALUES ('PITBULL');
 
 INSERT INTO PET (nome,cliente_id,raca_id) VALUES ('Marvin','3','3');
 INSERT INTO PET (nome,cliente_id,raca_id) VALUES ('Lobao','1','1');

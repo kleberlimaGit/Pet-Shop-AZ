@@ -42,7 +42,7 @@ public class RacaService {
 	
 	public RacaDTO inserirRaca(RacaDTO dto) {
 		Raca raca = new Raca();
-		raca.setTipoRaca(dto.getTipoRaca());
+		raca.setTipoRaca(dto.getTipoRaca().toUpperCase());
 		raca = repositorio.save(raca);
 		
 		return new RacaDTO(raca);

@@ -3,12 +3,3 @@
     height: 30rem;
 }
 
-.input-style{
-   width: 90%;
-   border: 1px solid var(--primary) !important;
-   background-color: #f2f2f2 !important;
-   
-}
-.label-style{
-    font-size: 20px !important;
-}

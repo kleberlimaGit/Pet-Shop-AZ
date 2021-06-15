@@ -12,6 +12,10 @@ import { makeRequest } from "../../util/request";
 import ClientCard from "./components/ClienteCard";
 import Pagination from "@material-ui/lab/Pagination";
 import "./styles.css";
+
+
+
+
 const Petshop = () => {
   const [clienteResponse, setClienteResponse] = useState<ClienteResponse>();
   const initialPage = () => Number(window.sessionStorage.getItem("page") || null)
@@ -52,7 +56,7 @@ const Petshop = () => {
           </p>
         </Link>
 
-        <Link to="/clientes/raca/cadastrar" className="text-decoration-none">
+        <Link to="racas/cadastrar" className="text-decoration-none">
           <p className=" h4 text-center mt-1 link-style">
             Cadastrar Raça <FontAwesomeIcon icon={faBone} className="ml-1"  onClick={handleResetSession}/>
           </p>

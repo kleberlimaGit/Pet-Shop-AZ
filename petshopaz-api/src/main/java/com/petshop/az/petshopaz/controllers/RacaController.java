@@ -33,9 +33,9 @@ public class RacaController {
 	@GetMapping
 	public ResponseEntity<Page<RacaDTO>> buscarTodosRacas(
 			@RequestParam(value = "page", defaultValue = "0") Integer pagina,
-			@RequestParam(value = "linesPerPage", defaultValue = "10") Integer linhasPorPagina,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
-			@RequestParam(value = "orderBy", defaultValue = "tipoRaca") String orderBy){
+			@RequestParam(value = "linesPerPage", defaultValue = "5") Integer linhasPorPagina,
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "id") String orderBy){
 			PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direction), orderBy);
 			
 			Page<RacaDTO> page = service.BuscaPaginada(pageRequest);
