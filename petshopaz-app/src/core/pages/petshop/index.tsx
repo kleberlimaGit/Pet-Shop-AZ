@@ -43,6 +43,7 @@ const Petshop = () => {
 
   return (
     <div className="container" style={{ marginTop: "8rem" }}>
+
       <div className="d-flex justify-content-center align-items-center mb-5 mt-2 flex-sm-row flex-column">
         <Link to="/clientes/cadastrar" className="text-decoration-none"  onClick={handleResetSession}>
           <p className="mr-sm-5 mr-0 h4 text-center link-style">

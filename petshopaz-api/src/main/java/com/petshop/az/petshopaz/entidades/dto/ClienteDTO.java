@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import com.petshop.az.petshopaz.entidades.Cliente;
 
 public class ClienteDTO implements Serializable{

@@ -8,6 +8,7 @@ import { useHistory, useParams } from "react-router-dom";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../../../util/request";
+import { clear } from "console";
 
 type FormData = {
   nome: string;
@@ -30,6 +31,7 @@ const DetalheCliente = () => {
   const { idCliente } = useParams<ParamsType>();
   const isEditing = idCliente !== "cadastrar";
   const [hasError, setHasError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
@@ -49,10 +51,19 @@ const DetalheCliente = () => {
     })
       .then(() => {
         setHasError(false);
-        history.push("/clientes");
+        setSuccess(true)
+        setTimeout(() => {  history.push("/clientes") }, 1000);               
+        
       })
       .catch(() => {
         setHasError(true);
+      })
+      .finally(() => {
+        
+            setValue("nome", '');
+            setValue("cpf", '');
+            setValue("telefone", '');
+        
       });
   };
 
@@ -66,6 +77,11 @@ const DetalheCliente = () => {
           {hasError && (
             <div className="alert alert-danger mt-3 rounded font-weight-bold">
               Cpf ou número de celular já cadastrado.
+            </div>
+          )}
+          {success && (
+            <div className="alert alert-info mt-3 rounded font-weight-bold">
+                CLIENTE CADASTRADO COM SUCESSO.
             </div>
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -189,10 +205,10 @@ const DetalheCliente = () => {
                 <FontAwesomeIcon icon={faPaw} className="ml-2" />
               </button>
 
-              <Link
-                to="/clientes"
-                className="btn btn-danger btn-lg rounded"
-              >CANCELAR <FontAwesomeIcon icon={faWindowClose} className="ml-2" /></Link>
+              <Link to="/clientes" className="btn btn-danger btn-lg rounded">
+                CANCELAR{" "}
+                <FontAwesomeIcon icon={faWindowClose} className="ml-2" />
+              </Link>
             </div>
           </form>
         </div>
