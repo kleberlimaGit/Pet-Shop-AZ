@@ -35,7 +35,6 @@ const Pets = () => {
   useEffect(() => {
     makeRequest({ url: "/racas" })
       .then((response) => {
-        console.log(response.data.content);
         setRacas(response.data.content);
       })
       .finally(() => {});
@@ -84,7 +83,7 @@ const Pets = () => {
                 type="text"
                 className="form-control input-style rounded"
                 {...register("nome", { required: true, minLength: 3 })}
-                placeholder="Raça"
+                placeholder="Nome"
               />
               <div className="text-danger">
                 {errors.nome?.type === "required" && "Campo é obrigatório"}

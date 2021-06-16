@@ -51,13 +51,17 @@ const DetalheCliente = () => {
 
 
   const buscarPets = useCallback(() => {
+    
     const params = {
       page: activePage,
     };
-    makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {  
-      setPetResponse(response.data);
-    });
-  }, [activePage,idCliente]);
+    if(isEditing){
+      makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {  
+        setPetResponse(response.data);
+      });
+    }
+   
+  }, [activePage,idCliente,isEditing]);
   useEffect(() => {
     buscarPets();
   }, [buscarPets]);
@@ -262,7 +266,7 @@ const DetalheCliente = () => {
             {petResponse?.content.map((pet) => (
                 <ListarPet pet={pet} onRemove={onRemove} key={pet.id}/>
             ))}
-            {petResponse?.content.length && (
+            {petResponse && petResponse.content.length>0 &&(
               <>
                 <div className="pagination-cards-raca mb-4">
                   <Pagination
@@ -284,9 +288,14 @@ const DetalheCliente = () => {
 
         <div className="col-md-6 d-flex justify-content-center order-first control-add-pet">
           <HomemDog className="cad-svg" />
-          <Link to={`/clientes/${idCliente}/pets`}>
-            <AddPet className="add-pet-svg" />
-          </Link>
+              {isEditing && (
+                  
+                    <Link to={`/clientes/${idCliente}/pets`}>
+                    <AddPet className="add-pet-svg" />
+                    </Link>
+                    
+              )}
+
         </div>
       </div>
     </div>

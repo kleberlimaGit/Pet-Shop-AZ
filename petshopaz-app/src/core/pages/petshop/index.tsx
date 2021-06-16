@@ -81,7 +81,7 @@ const Petshop = () => {
       <div className="d-flex justify-content-md-end align-items-center justify-content-center mt-md-2 mt-5">
         <input className="input-filter"
           type="text"
-          placeholder="Cliente, pet ou raça"
+          placeholder="Pesquisar cliente por nome, pet ou raça"
           onChange={(event) => handleChangeFilter(event.target.value)}
           value={filtro}
         />
