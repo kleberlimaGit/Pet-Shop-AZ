@@ -1,17 +1,17 @@
 import { faPaw, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { ReactComponent as HomemDog } from "../../../../assets/image/mandog.svg";
-import { ReactComponent as AddPet} from '../../../../assets/image/add-pet.svg'
+import { ReactComponent as AddPet } from "../../../../assets/image/add-pet.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { useHistory, useParams } from "react-router-dom";
-import "./styles.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Pagination from "@material-ui/lab/Pagination";
 import { makeRequest } from "../../../../util/request";
-
-
-
+import ListarPet from '../ListarPets'
+import "./styles.css";
+import { PetResponse } from "../../../../types/Pet";
 
 type FormData = {
   nome: string;
@@ -34,7 +34,11 @@ const DetalheCliente = () => {
   const { idCliente } = useParams<ParamsType>();
   const isEditing = idCliente !== "cadastrar";
   const [hasError, setHasError] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [successDelete, setSuccessDelete] = useState(false);
+  const [petResponse, setPetResponse] = useState<PetResponse>();
+  const [activePage, setActivePage] = useState(0);
 
   useEffect(() => {
     if (isEditing) {
@@ -46,6 +50,22 @@ const DetalheCliente = () => {
     }
   }, [idCliente, isEditing, setValue]);
 
+
+  const buscarPets = useCallback(() => {
+    const params = {
+      page: activePage,
+    };
+    makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {
+      console.log(response.data)
+      setPetResponse(response.data);
+    });
+  }, [activePage,idCliente]);
+  useEffect(() => {
+    buscarPets();
+  }, [buscarPets]);
+
+
+
   const onSubmit = (data: FormData) => {
     makeRequest({
       url: isEditing ? `/clientes/${idCliente}` : "/clientes",
@@ -54,31 +74,49 @@ const DetalheCliente = () => {
     })
       .then(() => {
         setHasError(false);
-        setSuccess(true)
-        setTimeout(() => {  history.push("/clientes") }, 1000);               
-        
+        setSuccess(true);
+        setTimeout(() => {
+          history.push("/clientes");
+        }, 1000);
       })
       .catch(() => {
         setHasError(true);
       })
       .finally(() => {
-        
-            setValue("nome", '');
-            setValue("cpf", '');
-            setValue("telefone", '');
-        
+        setValue("nome", "");
+        setValue("cpf", "");
+        setValue("telefone", "");
       });
   };
 
+  const onRemove = (idPet: number) => {
+    makeRequest({ url: `/pets/${idPet}`, method: "DELETE" })
+        .then(() => {
+            setSuccessDelete(true)
+            document.location.reload()
+            setTimeout(() => {
+                setSuccessDelete(false)
+            },1000) 
+        })
+        .catch(() => {
+            setDeleteError(true)
+            setTimeout(() => {
+                setDeleteError(false)
+            },1000) 
+            
+        })
+}
 
   return (
-    
     <div className="container " style={{ marginTop: "15rem" }}>
       <h3 className="text-white text-uppercase">
         {isEditing ? "EDITAR" : "Cadastrar"} Cliente
       </h3>
       <div className="row">
-        <div className="col-md-6 order-md-first mb-5" style={{ marginTop: "2rem" }}>
+        <div
+          className="col-md-6 order-md-first mb-5"
+          style={{ marginTop: "2rem" }}
+        >
           {hasError && (
             <div className="alert alert-danger mt-3 rounded font-weight-bold">
               Cpf ou número de celular já cadastrado.
@@ -86,7 +124,7 @@ const DetalheCliente = () => {
           )}
           {success && (
             <div className="alert alert-info mt-3 rounded font-weight-bold">
-                CLIENTE {isEditing? 'EDITADO' : 'CADASTRADO'} COM SUCESSO.
+              CLIENTE {isEditing ? "EDITADO" : "CADASTRADO"} COM SUCESSO.
             </div>
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -213,22 +251,45 @@ const DetalheCliente = () => {
               </button>
 
               <Link to="/clientes" className="btn btn-danger btn-lg rounded">
-                CANCELAR{" "}
+                CANCELAR
                 <FontAwesomeIcon icon={faWindowClose} className="ml-2" />
               </Link>
             </div>
           </form>
+          <div className="col-md-12 mt-5">
+          {isEditing && (
+          <>
+            {petResponse?.content.map((pet) => (
+                <ListarPet pet={pet} onRemove={onRemove} key={pet.id}/>
+            ))}
+            {petResponse && (
+              <>
+                <div className="pagination-cards-raca mb-4">
+                  <Pagination
+                    color="primary"
+                    count={petResponse.totalPages}
+                    page={activePage + 1}
+                    onChange={(event, page) => {
+                      setActivePage(page - 1);
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </>
+        )}
+            
+          </div>
         </div>
 
         <div className="col-md-6 d-flex justify-content-center order-first control-add-pet">
           <HomemDog className="cad-svg" />
-          <Link to="/clientes/1/pets"><AddPet className="add-pet-svg"/></Link>
+          <Link to={`/clientes/${idCliente}/pets`}>
+            <AddPet className="add-pet-svg" />
+          </Link>
         </div>
-        
       </div>
     </div>
-    
-    
   );
 };
 

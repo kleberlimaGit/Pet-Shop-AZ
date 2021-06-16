@@ -1,11 +1,11 @@
 import { faPaw, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { ReactComponent as WomanDog } from "../../../../assets/image/woman-dog.svg";
-import { PetResponse, Raca } from "../../../../types/Pet";
+import { Raca } from "../../../../types/Pet";
 import { makeRequest } from "../../../../util/request";
 
 import "./styles.css";
@@ -29,18 +29,15 @@ const Pets = () => {
   } = useForm<FormData>();
   const history = useHistory();
   const { idCliente } = useParams<ParamsType>();
-  const [hasError, setHasError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [petResponse, setPetResponse] = useState<PetResponse>();
   const [racas, setRacas] = useState<Raca[]>();
-  const [activePage, setActivePage] = useState(0);
 
   useEffect(() => {
     makeRequest({ url: "/racas" })
       .then((response) => {
-          console.log(response.data.content)
-          setRacas(response.data.content)
-        })
+        console.log(response.data.content);
+        setRacas(response.data.content);
+      })
       .finally(() => {});
   }, []);
 
@@ -51,16 +48,16 @@ const Pets = () => {
       data,
     })
       .then(() => {
-        setHasError(false);
         setSuccess(true);
         setTimeout(() => {
           history.push(`/clientes/${idCliente}`);
           setSuccess(false);
 
           document.location.reload();
-        }, 100);
-      }).catch(() => {
-        console.log(data)
+        }, 500);
+      })
+      .catch(() => {
+        console.log(data);
       })
       .finally(() => {
         setValue("nome", "");
@@ -80,10 +77,7 @@ const Pets = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
-            <label
-                htmlFor="nome"
-                className="label-style text-primary mt-5"
-              >
+              <label htmlFor="nome" className="label-style text-primary mt-5">
                 Nome
               </label>
               <input
