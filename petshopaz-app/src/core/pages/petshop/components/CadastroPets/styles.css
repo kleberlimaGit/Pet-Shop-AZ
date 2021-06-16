@@ -1,0 +1,37 @@
+.svg-woman-dog{
+    width: 20rem;
+    height: 20rem;
+}
+
+
+.racas-select__control{
+    height: 1rem;
+    border-radius: 4px !important;
+    border: 1px solid var(--primary) !important;
+    color: white !important;
+    background-color: #f2f2f2 !important;
+    
+}
+.racas-select__control:hover{
+    border: 1px solid var(--primary) !important;
+}
+
+
+.racas-select__indicator-separator{
+    display: none;
+}
+
+
+.racas-select__indicator svg path {
+    display: inline-block;
+    margin-bottom: -1rem !important;
+}
+.racas-select__value-container{
+    margin-bottom: 4rem;
+}
+.racas-select__dropdown-indicator{
+    display: none !important;
+}
+.racas-select__input{
+    color: white !important;
+}

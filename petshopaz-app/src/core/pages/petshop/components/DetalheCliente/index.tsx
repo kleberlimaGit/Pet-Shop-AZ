@@ -12,6 +12,7 @@ import { makeRequest } from "../../../../util/request";
 
 
 
+
 type FormData = {
   nome: string;
   cpf: string;
@@ -68,6 +69,7 @@ const DetalheCliente = () => {
         
       });
   };
+
 
   return (
     

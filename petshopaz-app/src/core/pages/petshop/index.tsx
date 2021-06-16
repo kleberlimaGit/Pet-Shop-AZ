@@ -43,7 +43,7 @@ const Petshop = () => {
   };
 
   const handleResetSession = () => window.sessionStorage.removeItem("page")
-
+  
 
   return (
     <div className="container" style={{ marginTop: "8rem" }}>

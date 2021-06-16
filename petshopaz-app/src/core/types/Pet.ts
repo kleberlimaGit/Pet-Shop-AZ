@@ -16,3 +16,8 @@ export type RacaResponse = {
     content: Raca[];
     totalPages: number;
 }
+
+export type PetResponse = {
+    content:Pet[]
+    totalPages:number;
+}
