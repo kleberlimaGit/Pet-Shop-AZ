@@ -8,7 +8,12 @@ export type ClienteResponse = {
 export type Cliente = {
   id: number;
   nome: string;
-  cpf: string;
+  numero: number;
+  bairro: string;
+  logradouro: string;
+  cidade: string;
+  cep: string;
+  uf: string;
   telefone:string;
   pets: Pet[];
 };

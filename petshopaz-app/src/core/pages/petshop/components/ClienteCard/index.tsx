@@ -1,5 +1,4 @@
 import {
-  faAddressCard,
   faPhoneSquareAlt,
   faDog,
   faTrashAlt,
@@ -31,10 +30,24 @@ const ClientCard = ({ cliente, onRemove }: Props) => {
       </div>
       <div className="card-body ">
         <h5 className="card-title">Informações do cliente</h5>
-        <p className="card-text">
-          <FontAwesomeIcon icon={faAddressCard} className="mr-1" />
-          {cliente.cpf}
-        </p>
+        <div className="card-text">
+          <h6>Endereço</h6>
+          <div className="row">
+            <div className="col-6">
+            <p>Cidade: {cliente.cidade}</p>
+            <p>UF: {cliente.uf}</p>
+              <p>Bairro: {cliente.bairro}</p>
+            </div>
+
+            <div className="col-6">
+            <p>CEP: {cliente.cep}</p>
+              <p>Rua: {cliente.logradouro}</p>
+              <p>Nº: {cliente.numero}</p>
+
+            </div>
+
+          </div>
+        </div>
         <p className="card-text">
           <FontAwesomeIcon icon={faPhoneSquareAlt} className="mr-1" />
           {cliente.telefone}

@@ -4,18 +4,22 @@ import { ReactComponent as AddPet } from "../../../../assets/image/add-pet.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import InputMask from "react-input-mask";
 import { useHistory, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeRequest } from "../../../../util/request";
-import ListarPet from '../ListarPets'
+import ListarPet from "../ListarPets";
 import "./styles.css";
 import { PetResponse } from "../../../../types/Pet";
 
 type FormData = {
   nome: string;
-  cpf: string;
+  logradouro: string;
+  bairro: string;
+  cep: string;
+  numero: number;
+  uf: string;
+  cidade: string;
   telefone: string;
 };
 
@@ -43,30 +47,26 @@ const DetalheCliente = () => {
     if (isEditing) {
       makeRequest({ url: `/clientes/${idCliente}` }).then((response) => {
         setValue("nome", response.data.nome);
-        setValue("cpf", response.data.cpf);
         setValue("telefone", response.data.telefone);
       });
     }
   }, [idCliente, isEditing, setValue]);
 
-
   const buscarPets = useCallback(() => {
-    
     const params = {
       page: activePage,
     };
-    if(isEditing){
-      makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {  
-        setPetResponse(response.data);
-      });
+    if (isEditing) {
+      makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then(
+        (response) => {
+          setPetResponse(response.data);
+        }
+      );
     }
-   
-  }, [activePage,idCliente,isEditing]);
+  }, [activePage, idCliente, isEditing]);
   useEffect(() => {
     buscarPets();
   }, [buscarPets]);
-
-
 
   const onSubmit = (data: FormData) => {
     makeRequest({
@@ -86,24 +86,27 @@ const DetalheCliente = () => {
       })
       .finally(() => {
         setValue("nome", "");
-        setValue("cpf", "");
         setValue("telefone", "");
+        setValue("bairro","");
+        setValue("cep","")
+        setValue("cidade","")
+        setValue("numero",0)
+        setValue("logradouro", "")
+        setValue("uf","")
       });
   };
 
   const onRemove = (idPet: number) => {
     makeRequest({ url: `/pets/${idPet}`, method: "DELETE" })
-        .then(() => {
-            setSuccessDelete(true)
-            document.location.reload()
-            setTimeout(() => {
-                setSuccessDelete(false)
-            },1000) 
-        })
-        .catch(() => {
-            
-        })
-}
+      .then(() => {
+        setSuccessDelete(true);
+        document.location.reload();
+        setTimeout(() => {
+          setSuccessDelete(false);
+        }, 1000);
+      })
+      .catch(() => {});
+  };
 
   return (
     <div className="container " style={{ marginTop: "15rem" }}>
@@ -132,7 +135,7 @@ const DetalheCliente = () => {
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
-              <label className="col-sm-2 col-form-label text-primary label-style pl-0">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
                 Nome
               </label>
 
@@ -150,67 +153,156 @@ const DetalheCliente = () => {
                   "Nome deve ter pelo menos 3 caracteres"}
               </div>
 
-              <label
-                htmlFor="cpf"
-                className="col-sm-2 col-form-label text-primary label-style pl-0 form-label"
-              >
-                CPF
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                Rua
               </label>
 
-              {isEditing ? (
-                <input
-                  placeholder="CPF"
-                  maxLength={14}
-                  type="text"
-                  {...register("cpf", {
-                    required: true,
-                    pattern: {
-                      // eslint-disable-next-line no-useless-escape
-                      value: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
-                      message: "CPF não esta num formato válido",
-                    },
-                  })}
-                  className="form-control input-style rounded"
-                  id="cpf"
-                />
-              ) : (
-                <InputMask
-                  mask="999.999.999-99"
-                  placeholder="CPF"
-                  type="text"
-                  {...register("cpf", {
-                    required: true,
-                    pattern: {
-                      // eslint-disable-next-line no-useless-escape
-                      value: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
-                      message: "CPF não esta num formato válido",
-                    },
-                  })}
-                  className="form-control input-style rounded"
-                  id="cpf"
-                />
-              )}
-
+              <input
+                type="text"
+                className="form-control input-style rounded"
+                {...register("logradouro", { required: true, minLength: 5 })}
+                placeholder="Logradouro"
+              />
               <div className="text-danger">
-                {errors.cpf?.type === "required" && "Cpf é obrigatório"}
+                {errors.logradouro?.type === "required" && "Logradouro é obrigatório"}
               </div>
               <div className="text-danger">
-                {errors.cpf?.type === "pattern" &&
-                  "Cpf está num formato inválido (xxx.xxx.xxx-xx)"}
+                {errors.logradouro?.type === "minLength" &&
+                  "campo deve ter pelo menos 5 caracteres"}
               </div>
 
+              <div className="d-flex justify-content-between">
+              <div className="col-6 pl-0">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                Cidade
+              </label>
+
+              <input
+                type="text"
+                className="form-control input-style rounded"
+                {...register("cidade", { required: true, minLength: 5 })}
+                placeholder="Cidade"
+              />
+              <div className="text-danger">
+                {errors.cidade?.type === "required" && "Cidade é obrigatória"}
+              </div>
+              <div className="text-danger">
+                {errors.cidade?.type === "minLength" &&
+                  "campo deve ter no máximo 5 caracteres"}
+              </div>
+
+              </div>
+
+              <div className="col-6 pr-0">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                Bairro
+              </label>
+
+              <input
+                type="text"
+                className="form-control input-style rounded"
+                {...register("bairro", { required: true, minLength: 5 })}
+                placeholder="Bairro"
+              />
+              <div className="text-danger">
+                {errors.bairro?.type === "required" && "Bairro é obrigatório"}
+              </div>
+              <div className="text-danger">
+                {errors.bairro?.type === "minLength" &&
+                  "campo deve ter pelo menos 5 caracteres"}
+              </div>
+
+              </div>
+
+              </div>
+
+             <div className="d-flex justify-content-between">
+              <div className="col-4 pl-0">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0 form-label">
+                CEP
+              </label>
+
+              <input
+                placeholder="CEP"
+                maxLength={9}
+                type="text"
+                {...register("cep", {
+                  required: true,
+                  pattern: {
+                    // eslint-disable-next-line no-useless-escape
+                    value: /^\d{5}-\d{3}$/,
+                    message: "CEP não esta num formato válido",
+                  },
+                })}
+                className="form-control input-style rounded"
+              />
+
+              <div className="text-danger">
+                {errors.cep?.type === "required" && "CEP é obrigatório"}
+              </div>
+              <div className="text-danger">
+                {errors.cep?.type === "pattern" &&
+                  "CEP deve ser nesse formato xxxxx-xxx"}
+              </div>
+
+              </div>
+
+              <div className="col-4 px-0">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+              Número
+              </label>
+
+              <input
+                type="number"
+                className="form-control input-style rounded"
+                {...register("numero", { required: true, maxLength: 5 })}
+                placeholder="Número de endereço"
+              />
+              <div className="text-danger">
+                {errors.numero?.type === "required" && "Número é obrigatório"}
+              </div>
+              <div className="text-danger">
+                {errors.numero?.type === "maxLength" &&
+                  "campo deve ter no máximo 5 caracteres"}
+              </div>
+              </div>
+
+              <div className="col-4 ">
+              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+              Número
+              </label>
+
+              <input
+                type="uf"
+                className="form-control input-style rounded"
+                {...register("uf", { required: true, minLength: 2, maxLength: 2 })}
+                placeholder="UF"
+              />
+              <div className="text-danger">
+                {errors.uf?.type === "required" && "UF é obrigatório"}
+              </div>
+              </div>
+
+             </div>
+
+             
+
+
+
+              
               <label
                 htmlFor="telefone"
-                className="col-sm-2 col-form-label text-primary label-style pl-0"
+                className="col-sm-2 col-form-label text-primary label-styles pl-0"
               >
                 Celular
               </label>
 
-              {isEditing ? (
+              
                 <input
                   placeholder="Número de telefone"
                   type="text"
                   maxLength={15}
+                  minLength={15}
                   {...register("telefone", {
                     required: true,
                     minLength: 15,
@@ -224,16 +316,6 @@ const DetalheCliente = () => {
                   className="form-control input-style rounded"
                   id="telefone"
                 />
-              ) : (
-                <InputMask
-                  mask="(99) 99999-9999"
-                  placeholder="Número de telefone"
-                  type="text"
-                  {...register("telefone", { required: true })}
-                  className="form-control input-style rounded"
-                  id="telefone"
-                />
-              )}
 
               <div className="text-danger">
                 {errors.telefone?.type === "required" &&
@@ -261,41 +343,37 @@ const DetalheCliente = () => {
             </div>
           </form>
           <div className="col-md-12 mt-5">
-          {isEditing && (
-          <>
-            {petResponse?.content.map((pet) => (
-                <ListarPet pet={pet} onRemove={onRemove} key={pet.id}/>
-            ))}
-            {petResponse && petResponse.content.length>0 &&(
+            {isEditing && (
               <>
-                <div className="pagination-cards-raca mb-4">
-                  <Pagination
-                    color="primary"
-                    count={petResponse.totalPages}
-                    page={activePage + 1}
-                    onChange={(event, page) => {
-                      setActivePage(page - 1);
-                    }}
-                  />
-                </div>
+                {petResponse?.content.map((pet) => (
+                  <ListarPet pet={pet} onRemove={onRemove} key={pet.id} />
+                ))}
+                {petResponse && petResponse.content.length > 0 && (
+                  <>
+                    <div className="pagination-cards-raca mb-4">
+                      <Pagination
+                        color="primary"
+                        count={petResponse.totalPages}
+                        page={activePage + 1}
+                        onChange={(event, page) => {
+                          setActivePage(page - 1);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
               </>
             )}
-          </>
-        )}
-            
           </div>
         </div>
 
         <div className="col-md-6 d-flex justify-content-center order-first control-add-pet">
           <HomemDog className="cad-svg" />
-              {isEditing && (
-                  
-                    <Link to={`/clientes/${idCliente}/pets`}>
-                    <AddPet className="add-pet-svg" />
-                    </Link>
-                    
-              )}
-
+          {isEditing && (
+            <Link to={`/clientes/${idCliente}/pets`}>
+              <AddPet className="add-pet-svg" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

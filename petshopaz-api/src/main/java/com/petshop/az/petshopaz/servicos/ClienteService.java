@@ -85,7 +85,12 @@ public class ClienteService {
 	
 	private void copiarEntidade(ClienteDTO dto, Cliente cliente) {
 		cliente.setNome(dto.getNome());
-		cliente.setCpf(dto.getCpf());
+		cliente.setBairro(dto.getBairro());
+		cliente.setCep(dto.getCep());
+		cliente.setCidade(dto.getCidade());
+		cliente.setLogradouro(dto.getLogradouro());
+		cliente.setNumero(dto.getNumero());
+		cliente.setUf(dto.getUf());
 		cliente.setTelefone(dto.getTelefone());
 	}
 }
