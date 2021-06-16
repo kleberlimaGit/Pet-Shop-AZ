@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class Cliente implements Serializable{
 	@Column(unique = true, nullable = false)
 	private String telefone;
 	
-	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	Set<Pet> pets = new HashSet<>();
 	
 	public Cliente() {

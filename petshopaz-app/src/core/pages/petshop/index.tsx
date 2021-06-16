@@ -42,7 +42,19 @@ const Petshop = () => {
     setFiltro(filtro);
   };
 
+  const onRemove = (idCliente: number) => {
+    makeRequest({ url: `/clientes/${idCliente}`, method: "DELETE" })
+        .then(() => {
+
+        })
+        .catch(() => {
+            
+        })
+}
+
   const handleResetSession = () => window.sessionStorage.removeItem("page")
+
+
   
 
   return (
@@ -77,7 +89,7 @@ const Petshop = () => {
       </div>
       <div className="row">
         {clienteResponse?.content.map((cliente) => (
-          <ClientCard cliente={cliente} key={cliente.id} />
+          <ClientCard cliente={cliente} key={cliente.id} onRemove={onRemove}/>
         ))}
       </div>
 

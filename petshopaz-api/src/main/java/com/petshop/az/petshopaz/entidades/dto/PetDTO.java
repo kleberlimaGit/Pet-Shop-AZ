@@ -34,7 +34,7 @@ public class PetDTO implements Serializable{
 
 	public PetDTO(Pet pets) {
 		id = pets.getId();
-		nome = pets.getNome();
+		nome = pets.getNome().toLowerCase();
 		raca = new RacaDTO(pets.getRaca());
 	}
 

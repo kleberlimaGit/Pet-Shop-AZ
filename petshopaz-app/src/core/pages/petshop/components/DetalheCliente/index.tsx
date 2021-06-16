@@ -34,7 +34,6 @@ const DetalheCliente = () => {
   const { idCliente } = useParams<ParamsType>();
   const isEditing = idCliente !== "cadastrar";
   const [hasError, setHasError] = useState(false);
-  const [deleteError, setDeleteError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
   const [petResponse, setPetResponse] = useState<PetResponse>();
@@ -55,8 +54,7 @@ const DetalheCliente = () => {
     const params = {
       page: activePage,
     };
-    makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {
-      console.log(response.data)
+    makeRequest({ url: `/pets/clientes/${idCliente}`, params }).then((response) => {  
       setPetResponse(response.data);
     });
   }, [activePage,idCliente]);
@@ -99,10 +97,6 @@ const DetalheCliente = () => {
             },1000) 
         })
         .catch(() => {
-            setDeleteError(true)
-            setTimeout(() => {
-                setDeleteError(false)
-            },1000) 
             
         })
 }
@@ -125,6 +119,11 @@ const DetalheCliente = () => {
           {success && (
             <div className="alert alert-info mt-3 rounded font-weight-bold">
               CLIENTE {isEditing ? "EDITADO" : "CADASTRADO"} COM SUCESSO.
+            </div>
+          )}
+          {successDelete && (
+            <div className="alert alert-info mt-3 rounded font-weight-bold">
+              PET DELETADO COM SUCESSO
             </div>
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -207,6 +206,7 @@ const DetalheCliente = () => {
                 <input
                   placeholder="Número de telefone"
                   type="text"
+                  maxLength={15}
                   {...register("telefone", {
                     required: true,
                     minLength: 15,
@@ -262,7 +262,7 @@ const DetalheCliente = () => {
             {petResponse?.content.map((pet) => (
                 <ListarPet pet={pet} onRemove={onRemove} key={pet.id}/>
             ))}
-            {petResponse && (
+            {petResponse?.content.length && (
               <>
                 <div className="pagination-cards-raca mb-4">
                   <Pagination

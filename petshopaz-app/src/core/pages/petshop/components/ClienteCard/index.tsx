@@ -2,6 +2,7 @@ import {
   faAddressCard,
   faPhoneSquareAlt,
   faDog,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Cliente } from "../../../../types/Cliente";
@@ -10,23 +11,24 @@ import "./styles.css";
 
 type Props = {
   cliente: Cliente;
+  onRemove: (idCliente:number) => void
 };
 
-const ClientCard = ({ cliente }: Props) => (
+const ClientCard = ({ cliente, onRemove }: Props) => (
   <div className="mt-5 col-lg-4 col-md-6 d-flex justify-content-center ">
     <div className="card text-white bg-primary mb-3 card-container rounded shadow">
-      <div className="card-header text-white h5 style-link">
+      <div className="card-header text-white h5 style-link d-flex justify-content-between">
         <Link to={`/clientes/${cliente.id}`} className="style-link text-decoration-none">{cliente.nome}</Link>
-          
+        <FontAwesomeIcon icon={faTrashAlt} className="pointer"onClick={() => onRemove(cliente.id)}/>
       </div>
-      <div className="card-body">
+      <div className="card-body ">
         <h5 className="card-title">Informações do cliente</h5>
         <p className="card-text">
-          <FontAwesomeIcon icon={faAddressCard} className="mr-1" />{" "}
+          <FontAwesomeIcon icon={faAddressCard} className="mr-1" />
           {cliente.cpf}
         </p>
         <p className="card-text">
-          <FontAwesomeIcon icon={faPhoneSquareAlt} className="mr-1" />{" "}
+          <FontAwesomeIcon icon={faPhoneSquareAlt} className="mr-1" />
           {cliente.telefone}
         </p>
         <div className="container ">
@@ -35,7 +37,7 @@ const ClientCard = ({ cliente }: Props) => (
             {cliente.pets.map((pet) => (
               <div className="col-6  pb-2" key={pet.id}>
                 <span className="text-center">
-                  <FontAwesomeIcon icon={faDog} className="mr-1" />
+                  <FontAwesomeIcon icon={faDog} className="mr-1 " />
                   {pet.nome}
                 </span>
               </div>
