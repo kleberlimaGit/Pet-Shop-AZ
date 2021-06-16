@@ -14,12 +14,20 @@ type Props = {
   onRemove: (idCliente:number) => void
 };
 
-const ClientCard = ({ cliente, onRemove }: Props) => (
+const ClientCard = ({ cliente, onRemove }: Props) => {
+  
+  const handleAlert = () => {
+    if(window.confirm("Deseja remover mesmo este usuário ?")){
+      onRemove(cliente.id)
+    }
+  }
+
+  return(
   <div className="mt-5 col-lg-4 col-md-6 d-flex justify-content-center ">
     <div className="card text-white bg-primary mb-3 card-container rounded shadow">
       <div className="card-header text-white h5 style-link d-flex justify-content-between">
         <Link to={`/clientes/${cliente.id}`} className="style-link text-decoration-none">{cliente.nome}</Link>
-        <FontAwesomeIcon icon={faTrashAlt} className="pointer"onClick={() => onRemove(cliente.id)}/>
+        <FontAwesomeIcon icon={faTrashAlt} className="pointer"onClick={handleAlert}/>
       </div>
       <div className="card-body ">
         <h5 className="card-title">Informações do cliente</h5>
@@ -47,6 +55,6 @@ const ClientCard = ({ cliente, onRemove }: Props) => (
       </div>
     </div>
   </div>
-);
+)};
 
 export default ClientCard;

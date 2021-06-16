@@ -45,7 +45,7 @@ const Petshop = () => {
   const onRemove = (idCliente: number) => {
     makeRequest({ url: `/clientes/${idCliente}`, method: "DELETE" })
         .then(() => {
-
+          document.location.reload()
         })
         .catch(() => {
             
