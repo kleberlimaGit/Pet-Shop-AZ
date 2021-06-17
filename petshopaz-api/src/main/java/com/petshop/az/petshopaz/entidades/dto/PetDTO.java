@@ -15,7 +15,9 @@ public class PetDTO implements Serializable{
 	@NotBlank(message = "campo nome não pode ser vazio.")
 	private String nome;
 	
-//	@NotBlank(message = "campo raca não pode ser vazio.")
+	@NotBlank(message = "campo nome não pode ser vazio.")
+	private String corDoPelo;
+	
 	private RacaDTO raca;
 	
 	public PetDTO() {
@@ -24,10 +26,11 @@ public class PetDTO implements Serializable{
 
 
 	
-	public PetDTO(Long id, String nome, RacaDTO raca) {
+	public PetDTO(Long id, String nome,String corDoPelo, RacaDTO raca) {
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
+		this.corDoPelo = corDoPelo;
 	}
 
 
@@ -35,6 +38,7 @@ public class PetDTO implements Serializable{
 	public PetDTO(Pet pets) {
 		id = pets.getId();
 		nome = pets.getNome().toLowerCase();
+		corDoPelo = pets.getCorDoPelo();
 		raca = new RacaDTO(pets.getRaca());
 	}
 
@@ -49,10 +53,23 @@ public class PetDTO implements Serializable{
 	public String getNome() {
 		return nome;
 	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	
+	public String getCorDoPelo() {
+		return corDoPelo;
+	}
+
+
+
+	public void setCorDoPelo(String corDoPelo) {
+		this.corDoPelo = corDoPelo;
+	}
+
+
 
 	public RacaDTO getRaca() {
 		return raca;

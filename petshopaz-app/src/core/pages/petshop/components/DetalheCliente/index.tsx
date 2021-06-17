@@ -7,10 +7,11 @@ import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
-import { makeRequest } from "../../../../util/request";
+import { makeRequest, makeRequestUF } from "../../../../util/request";
 import ListarPet from "../ListarPets";
 import "./styles.css";
 import { PetResponse } from "../../../../types/Pet";
+import { Uf } from "../../../../types/Uf";
 
 type FormData = {
   nome: string;
@@ -18,7 +19,7 @@ type FormData = {
   bairro: string;
   cep: string;
   numero: number;
-  uf: string;
+  uf: Uf[];
   cidade: string;
   telefone: string;
 };
@@ -41,6 +42,7 @@ const DetalheCliente = () => {
   const [success, setSuccess] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
   const [petResponse, setPetResponse] = useState<PetResponse>();
+  const [ufResponse, setUfResponse] = useState<Uf[]>();
   const [activePage, setActivePage] = useState(0);
 
   useEffect(() => {
@@ -48,6 +50,12 @@ const DetalheCliente = () => {
       makeRequest({ url: `/clientes/${idCliente}` }).then((response) => {
         setValue("nome", response.data.nome);
         setValue("telefone", response.data.telefone);
+        setValue("bairro", response.data.bairro);
+        setValue("cep", response.data.cep);
+        setValue("cidade", response.data.cidade);
+        setValue("numero", response.data.numero);
+        setValue("logradouro", response.data.logradouro);
+        setValue("uf", response.data.uf);
       });
     }
   }, [idCliente, isEditing, setValue]);
@@ -68,6 +76,15 @@ const DetalheCliente = () => {
     buscarPets();
   }, [buscarPets]);
 
+  useEffect(() => {
+    makeRequestUF({ url: "/api/v1/localidades/estados" })
+      .then((response) => {
+        setUfResponse(response.data);
+      })
+      .finally(() => {});
+  }, []);
+
+  console.log();
   const onSubmit = (data: FormData) => {
     makeRequest({
       url: isEditing ? `/clientes/${idCliente}` : "/clientes",
@@ -87,12 +104,11 @@ const DetalheCliente = () => {
       .finally(() => {
         setValue("nome", "");
         setValue("telefone", "");
-        setValue("bairro","");
-        setValue("cep","")
-        setValue("cidade","")
-        setValue("numero",0)
-        setValue("logradouro", "")
-        setValue("uf","")
+        setValue("bairro", "");
+        setValue("cep", "");
+        setValue("cidade", "");
+        setValue("numero", 0);
+        setValue("logradouro", "");
       });
   };
 
@@ -120,7 +136,8 @@ const DetalheCliente = () => {
         >
           {hasError && (
             <div className="alert alert-danger mt-3 rounded font-weight-bold">
-              Cpf ou número de celular já cadastrado.
+              Cliente não pode ser cadastrado, verifique se os campos estão
+              corretos.
             </div>
           )}
           {success && (
@@ -164,7 +181,8 @@ const DetalheCliente = () => {
                 placeholder="Logradouro"
               />
               <div className="text-danger">
-                {errors.logradouro?.type === "required" && "Logradouro é obrigatório"}
+                {errors.logradouro?.type === "required" &&
+                  "Logradouro é obrigatório"}
               </div>
               <div className="text-danger">
                 {errors.logradouro?.type === "minLength" &&
@@ -172,124 +190,128 @@ const DetalheCliente = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-              <div className="col-6 pl-0">
-              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
-                Cidade
-              </label>
+                <div className="col-6 pl-0">
+                  <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                    Cidade
+                  </label>
 
-              <input
-                type="text"
-                className="form-control input-style rounded"
-                {...register("cidade", { required: true, minLength: 5 })}
-                placeholder="Cidade"
-              />
-              <div className="text-danger">
-                {errors.cidade?.type === "required" && "Cidade é obrigatória"}
-              </div>
-              <div className="text-danger">
-                {errors.cidade?.type === "minLength" &&
-                  "campo deve ter no máximo 5 caracteres"}
-              </div>
+                  <input
+                    type="text"
+                    className="form-control input-style rounded"
+                    {...register("cidade", { required: true, minLength: 5 })}
+                    placeholder="Cidade"
+                  />
+                  <div className="text-danger">
+                    {errors.cidade?.type === "required" &&
+                      "Cidade é obrigatória"}
+                  </div>
+                  <div className="text-danger">
+                    {errors.cidade?.type === "minLength" &&
+                      "campo deve ter no máximo 5 caracteres"}
+                  </div>
+                </div>
 
-              </div>
+                <div className="col-6 pr-0">
+                  <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                    Bairro
+                  </label>
 
-              <div className="col-6 pr-0">
-              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
-                Bairro
-              </label>
-
-              <input
-                type="text"
-                className="form-control input-style rounded"
-                {...register("bairro", { required: true, minLength: 5 })}
-                placeholder="Bairro"
-              />
-              <div className="text-danger">
-                {errors.bairro?.type === "required" && "Bairro é obrigatório"}
-              </div>
-              <div className="text-danger">
-                {errors.bairro?.type === "minLength" &&
-                  "campo deve ter pelo menos 5 caracteres"}
-              </div>
-
-              </div>
-
-              </div>
-
-             <div className="d-flex justify-content-between">
-              <div className="col-4 pl-0">
-              <label className="col-sm-2 col-form-label text-primary label-styles pl-0 form-label">
-                CEP
-              </label>
-
-              <input
-                placeholder="CEP"
-                maxLength={9}
-                type="text"
-                {...register("cep", {
-                  required: true,
-                  pattern: {
-                    // eslint-disable-next-line no-useless-escape
-                    value: /^\d{5}-\d{3}$/,
-                    message: "CEP não esta num formato válido",
-                  },
-                })}
-                className="form-control input-style rounded"
-              />
-
-              <div className="text-danger">
-                {errors.cep?.type === "required" && "CEP é obrigatório"}
-              </div>
-              <div className="text-danger">
-                {errors.cep?.type === "pattern" &&
-                  "CEP deve ser nesse formato xxxxx-xxx"}
+                  <input
+                    type="text"
+                    className="form-control input-style rounded"
+                    {...register("bairro", { required: true, minLength: 5 })}
+                    placeholder="Bairro"
+                  />
+                  <div className="text-danger">
+                    {errors.bairro?.type === "required" &&
+                      "Bairro é obrigatório"}
+                  </div>
+                  <div className="text-danger">
+                    {errors.bairro?.type === "minLength" &&
+                      "campo deve ter pelo menos 5 caracteres"}
+                  </div>
+                </div>
               </div>
 
+              <div className="d-flex justify-content-between">
+                <div className="col-4 pl-0">
+                  <label className="col-sm-2 col-form-label text-primary label-styles pl-0 form-label">
+                    CEP
+                  </label>
+
+                  <input
+                    placeholder="CEP"
+                    maxLength={9}
+                    type="text"
+                    {...register("cep", {
+                      required: true,
+                      pattern: {
+                        // eslint-disable-next-line no-useless-escape
+                        value: /^\d{5}-\d{3}$/,
+                        message: "CEP não esta num formato válido",
+                      },
+                    })}
+                    className="form-control input-style rounded"
+                  />
+
+                  <div className="text-danger">
+                    {errors.cep?.type === "required" && "CEP é obrigatório"}
+                  </div>
+                  <div className="text-danger">
+                    {errors.cep?.type === "pattern" &&
+                      "CEP deve ser nesse formato xxxxx-xxx"}
+                  </div>
+                </div>
+
+                <div className="col-4 px-0">
+                  <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                    Número
+                  </label>
+
+                  <input
+                    type="number"
+                    className="form-control input-style rounded"
+                    {...register("numero", { required: true, maxLength: 5 })}
+                    placeholder="Número de endereço"
+                  />
+                  <div className="text-danger">
+                    {errors.numero?.type === "required" &&
+                      "Número é obrigatório"}
+                  </div>
+                  <div className="text-danger">
+                    {errors.numero?.type === "maxLength" &&
+                      "campo deve ter no máximo 5 caracteres"}
+                  </div>
+                </div>
+
+                <div className="col-4 pr-0">
+                  <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
+                    UF
+                  </label>
+                  <select
+                    {...register("uf", { required: true })}
+                    className="form-control input-style rounded"
+                  >
+                    {ufResponse
+                      ?.sort((a, b) =>
+                        a.sigla > b.sigla ? 1 : a.sigla < b.sigla ? -1 : 0
+                      )
+                      .map((uf) => (
+                        <option value={uf.sigla} key={uf.id}>
+                          {uf.sigla}
+                        </option>
+                      ))}
+                  </select>
+                  <div className="text-danger">
+                    {errors.uf && <span>campo obrigatório</span>}
+                  </div>
+                  <div className="text-danger">
+                    {errors.numero?.type === "maxLength" &&
+                      "campo deve ter no máximo 5 caracteres"}
+                  </div>
+                </div>
               </div>
 
-              <div className="col-4 px-0">
-              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
-              Número
-              </label>
-
-              <input
-                type="number"
-                className="form-control input-style rounded"
-                {...register("numero", { required: true, maxLength: 5 })}
-                placeholder="Número de endereço"
-              />
-              <div className="text-danger">
-                {errors.numero?.type === "required" && "Número é obrigatório"}
-              </div>
-              <div className="text-danger">
-                {errors.numero?.type === "maxLength" &&
-                  "campo deve ter no máximo 5 caracteres"}
-              </div>
-              </div>
-
-              <div className="col-4 ">
-              <label className="col-sm-2 col-form-label text-primary label-styles pl-0">
-              Número
-              </label>
-
-              <input
-                type="uf"
-                className="form-control input-style rounded"
-                {...register("uf", { required: true, minLength: 2, maxLength: 2 })}
-                placeholder="UF"
-              />
-              <div className="text-danger">
-                {errors.uf?.type === "required" && "UF é obrigatório"}
-              </div>
-              </div>
-
-             </div>
-
-             
-
-
-
-              
               <label
                 htmlFor="telefone"
                 className="col-sm-2 col-form-label text-primary label-styles pl-0"
@@ -297,25 +319,22 @@ const DetalheCliente = () => {
                 Celular
               </label>
 
-              
-                <input
-                  placeholder="Número de telefone"
-                  type="text"
-                  maxLength={15}
-                  minLength={15}
-                  {...register("telefone", {
-                    required: true,
-                    minLength: 15,
-                    maxLength: 15,
-                    pattern: {
-                      value:
-                        /^(?:(?:\+|00)?(55)\s?)?(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/,
-                      message: "Telefone deve ser no formato (DDD) xxxxx-xxxx",
-                    },
-                  })}
-                  className="form-control input-style rounded"
-                  id="telefone"
-                />
+              <input
+                placeholder="Número de telefone"
+                type="text"
+                {...register("telefone", {
+                  required: true,
+                  minLength: 15,
+                  maxLength: 15,
+                  pattern: {
+                    value:
+                      /^(?:(?:\+|00)?(55)\s?)?(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/,
+                    message: "Telefone deve ser no formato (DDD) xxxxx-xxxx",
+                  },
+                })}
+                className="form-control input-style rounded"
+                id="telefone"
+              />
 
               <div className="text-danger">
                 {errors.telefone?.type === "required" &&

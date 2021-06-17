@@ -25,6 +25,6 @@ INSERT INTO RACA (tipo_raca) VALUES ('LABRADOR');
 INSERT INTO RACA (tipo_raca) VALUES ('BULLDOG');
 INSERT INTO RACA (tipo_raca) VALUES ('PITBULL');
 
-INSERT INTO PET (nome,cliente_id,raca_id) VALUES ('Marvin','3','3');
-INSERT INTO PET (nome,cliente_id,raca_id) VALUES ('Lobao','1','1');
-INSERT INTO PET (nome,cliente_id,raca_id) VALUES ('Bandido','2','4');
+INSERT INTO PET (nome,cor_do_pelo,cliente_id,raca_id) VALUES ('Marvin','Fulvo','3','3');
+INSERT INTO PET (nome,cor_do_pelo,cliente_id,raca_id) VALUES ('Lobao','Branco','1','1');
+INSERT INTO PET (nome,cor_do_pelo,cliente_id,raca_id) VALUES ('Lucky','Branco','2','4');

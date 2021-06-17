@@ -12,6 +12,7 @@ import "./styles.css";
 
 type FormData = {
   nome: string;
+  corDoPelo:string;
   raca: Raca[];
 };
 
@@ -30,6 +31,7 @@ const Pets = () => {
   const history = useHistory();
   const { idCliente } = useParams<ParamsType>();
   const [success, setSuccess] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [racas, setRacas] = useState<Raca[]>();
 
   useEffect(() => {
@@ -41,6 +43,7 @@ const Pets = () => {
   }, []);
 
   const onSubmit = (data: FormData) => {
+    setHasError(false);
     makeRequest({
       url: `/pets/${Number(idCliente)}`,
       method: "POST",
@@ -56,10 +59,12 @@ const Pets = () => {
         }, 500);
       })
       .catch(() => {
-        console.log(data);
+        setHasError(true);
+        
       })
       .finally(() => {
         setValue("nome", "");
+        setValue("corDoPelo", "");
       });
   };
 
@@ -71,6 +76,11 @@ const Pets = () => {
           {success && (
             <div className="alert alert-info mt-3 rounded font-weight-bold">
               PET CADASTRADA COM SUCESSO.
+            </div>
+          )}
+          {hasError && (
+            <div className="alert alert-danger mt-3 rounded font-weight-bold">
+              PET NÃO FOI CADASTRADO VERIFIQUE SE TODOS OS CAMPOS FORAM PREENCHIDOS CORRETAMENTE.
             </div>
           )}
 
@@ -107,6 +117,7 @@ const Pets = () => {
                     options={racas}
                     getOptionLabel={(option: Raca) => option.tipoRaca}
                     getOptionValue={(option: Raca) => String(option.id)}
+                    rules={{ required: true }}
                     placeholder="Selecione uma Raça"
                     defaultInputValue=""
                     classNamePrefix="racas-select"
@@ -122,6 +133,24 @@ const Pets = () => {
                   />
                 )}
               />
+
+<label htmlFor="nome" className="label-style text-primary mt-3">
+                Cor do pelo
+              </label>
+              <input
+                type="text"
+                className="form-control input-style rounded"
+                {...register("corDoPelo", { required: true, minLength: 4 })}
+                placeholder="Cor do pelo do pet"
+              />
+              <div className="text-danger">
+                {errors.nome?.type === "required" && "Campo é obrigatório"}
+              </div>
+              <div className="text-danger">
+                {errors.nome?.type === "minLength" &&
+                  "Campo deve ter no minimo 4 caracteres"}
+              </div>
+              
 
               <div className="d-flex justify-content-between align-items-center mt-4">
                 <button className="btn btn-primary btn-lg rounded ">

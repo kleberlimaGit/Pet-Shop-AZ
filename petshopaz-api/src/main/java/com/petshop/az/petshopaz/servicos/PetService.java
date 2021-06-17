@@ -59,6 +59,7 @@ public class PetService {
 		Raca raca = racaRepository.getOne(petDto.getRaca().getId());
 		pet.setNome(petDto.getNome());
 		pet.setRaca(raca);
+		pet.setCorDoPelo(petDto.getCorDoPelo());
 		pet.setCliente(cliente);
 		pet = repositorio.save(pet);
 		

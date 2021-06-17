@@ -1,6 +1,7 @@
 export type Pet = {
     id: number;
     nome: string;
+    corDoPelo:string;
     raca: Raca;
 
     

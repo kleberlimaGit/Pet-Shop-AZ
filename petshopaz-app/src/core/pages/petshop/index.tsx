@@ -96,7 +96,7 @@ const Petshop = () => {
         ))}
       </div>
 
-      {clienteResponse && (
+      {clienteResponse && clienteResponse.content.length > 0 && (
         <>
           <div className="pagination-cards mb-2">
             <Pagination

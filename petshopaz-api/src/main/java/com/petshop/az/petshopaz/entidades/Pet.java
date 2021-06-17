@@ -18,6 +18,7 @@ public class Pet implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String corDoPelo;
 	
 	@ManyToOne
 	@JoinColumn(name = "raca_id")
@@ -31,20 +32,15 @@ public class Pet implements Serializable{
 		
 	}
 
-	public Pet(Long id, String nome, Raca raca, Cliente cliente) {
+	public Pet(Long id, String nome, String corDoPelo,Raca raca, Cliente cliente) {
 		this.id = id;
 		this.nome = nome;
 		this.raca = raca;
 		this.cliente = cliente;
+		this.corDoPelo = corDoPelo;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+
 	
 
 	public Long getId() {
@@ -61,6 +57,15 @@ public class Pet implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	
+	public String getCorDoPelo() {
+		return corDoPelo;
+	}
+
+	public void setCorDoPelo(String corDoPelo) {
+		this.corDoPelo = corDoPelo;
 	}
 
 	public Raca getRaca() {
@@ -96,7 +101,13 @@ public class Pet implements Serializable{
 		return true;
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 	
 	
 	
