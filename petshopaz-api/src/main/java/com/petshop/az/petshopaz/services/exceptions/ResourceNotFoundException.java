@@ -1,4 +1,4 @@
-package com.petshop.az.petshopaz.servicos.exceptions;
+package com.petshop.az.petshopaz.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

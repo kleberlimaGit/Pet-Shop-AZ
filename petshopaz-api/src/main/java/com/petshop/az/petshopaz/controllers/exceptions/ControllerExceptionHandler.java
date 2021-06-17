@@ -11,8 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
-import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
+import com.petshop.az.petshopaz.services.exceptions.DatabaseException;
+import com.petshop.az.petshopaz.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {

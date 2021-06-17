@@ -1,4 +1,4 @@
-package com.petshop.az.petshopaz.servicos;
+package com.petshop.az.petshopaz.services;
 
 import java.util.Optional;
 
@@ -11,27 +11,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.petshop.az.petshopaz.entidades.Cliente;
-import com.petshop.az.petshopaz.entidades.Pet;
-import com.petshop.az.petshopaz.entidades.Raca;
-import com.petshop.az.petshopaz.entidades.dto.PetDTO;
-import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
-import com.petshop.az.petshopaz.repositorios.PetRepositorio;
-import com.petshop.az.petshopaz.repositorios.RacaRepositorio;
-import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
+import com.petshop.az.petshopaz.entities.Cliente;
+import com.petshop.az.petshopaz.entities.Pet;
+import com.petshop.az.petshopaz.entities.Raca;
+import com.petshop.az.petshopaz.entities.dto.PetDTO;
+import com.petshop.az.petshopaz.repositories.ClienteRepository;
+import com.petshop.az.petshopaz.repositories.PetRepository;
+import com.petshop.az.petshopaz.repositories.RacaRepository;
+import com.petshop.az.petshopaz.services.exceptions.ResourceNotFoundException;
 
 @Service
 @Transactional
 public class PetService {
 	
 	@Autowired
-	private PetRepositorio repositorio;
+	private PetRepository repository;
 	
 	@Autowired
-	private ClienteRepositorio clienteRepository;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
-	private RacaRepositorio racaRepository;
+	private RacaRepository racaRepository;
 	
 
 	
@@ -39,7 +39,7 @@ public class PetService {
 		
 		@Transactional(readOnly = true)
 		public Page<PetDTO> BuscaPaginada(Long idCliente, PageRequest pageRequest){
-			Page<Pet> page = repositorio.findByClienteId(idCliente,pageRequest);
+			Page<Pet> page = repository.findByClienteId(idCliente,pageRequest);
 			
 			return page.map(pet -> new PetDTO(pet));
 		}
@@ -47,7 +47,7 @@ public class PetService {
 	
 	@Transactional(readOnly = true)
 	public PetDTO buscarPorId(Long id) {
-		Optional<Pet> obj = repositorio.findById(id);
+		Optional<Pet> obj = repository.findById(id);
 		Pet pet = obj.orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
 		
 		return new PetDTO(pet);
@@ -61,7 +61,7 @@ public class PetService {
 		pet.setRaca(raca);
 		pet.setCorDoPelo(petDto.getCorDoPelo());
 		pet.setCliente(cliente);
-		pet = repositorio.save(pet);
+		pet = repository.save(pet);
 		
 		return new PetDTO(pet);
 	}
@@ -69,10 +69,10 @@ public class PetService {
 	public PetDTO atualizarPet(Long id, PetDTO petDto) {
 		try {
 			Raca raca = racaRepository.getOne(petDto.getRaca().getId());
-			Pet pet = repositorio.getOne(id);
+			Pet pet = repository.getOne(id);
 			pet.setNome(petDto.getNome());
 			pet.setRaca(raca);
-			pet = repositorio.save(pet);
+			pet = repository.save(pet);
 			
 			return new PetDTO(pet);
 		}
@@ -83,7 +83,7 @@ public class PetService {
 	
 	public void deletarPet(Long id) {
 		try {
-			repositorio.deleteById(id);
+			repository.deleteById(id);
 		}
 		catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Pet não encontrado. " + id);

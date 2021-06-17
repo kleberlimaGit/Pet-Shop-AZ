@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.petshop.az.petshopaz.entidades.dto.RacaDTO;
-import com.petshop.az.petshopaz.servicos.RacaService;
+import com.petshop.az.petshopaz.entities.dto.RacaDTO;
+import com.petshop.az.petshopaz.services.RacaService;
 
 @RestController
 @RequestMapping(value = "/racas")

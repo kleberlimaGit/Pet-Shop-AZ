@@ -1,4 +1,4 @@
-package com.petshop.az.petshopaz.servicos;
+package com.petshop.az.petshopaz.services;
 
 import java.util.Optional;
 
@@ -12,36 +12,34 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.petshop.az.petshopaz.entidades.Cliente;
-import com.petshop.az.petshopaz.entidades.dto.ClienteDTO;
-import com.petshop.az.petshopaz.repositorios.ClienteRepositorio;
-import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
-import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
+import com.petshop.az.petshopaz.entities.Cliente;
+import com.petshop.az.petshopaz.entities.dto.ClienteDTO;
+import com.petshop.az.petshopaz.repositories.ClienteRepository;
+import com.petshop.az.petshopaz.services.exceptions.DatabaseException;
+import com.petshop.az.petshopaz.services.exceptions.ResourceNotFoundException;
 
 @Service
 @Transactional
 public class ClienteService {
 	
 	@Autowired
-	private ClienteRepositorio repositorio;
+	private ClienteRepository repository;
 	
 	@Transactional(readOnly = true)
 	public Page<ClienteDTO> BuscaPaginada(String filtro, PageRequest pageRequest){
 		Page<Cliente> page;
-		if(filtro.isBlank() || !repositorio.buscarClientePorNome(filtro, pageRequest).isEmpty()){
-			 page = repositorio.buscarClientePorNome(filtro, pageRequest);
+		if(filtro.isBlank() || !repository.buscarClientePorNome(filtro, pageRequest).isEmpty()){
+			 page = repository.buscarClientePorNome(filtro, pageRequest);
 		}else {
-			page = repositorio.buscarClientePorPetOuRaca(filtro, pageRequest);
+			page = repository.buscarClientePorPetOuRaca(filtro, pageRequest);
 		}
-		
-//		repositorio.buscarClientesComPet(page.getContent());
 		
 		return page.map(cliente -> new ClienteDTO(cliente));
 	}
 	
 	@Transactional(readOnly = true)
 	public ClienteDTO buscarPorId(Long id) {
-		Optional<Cliente> obj = repositorio.findById(id);
+		Optional<Cliente> obj = repository.findById(id);
 		Cliente cliente = obj.orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 		
 		return new ClienteDTO(cliente);
@@ -50,16 +48,16 @@ public class ClienteService {
 	public ClienteDTO inserirCliente(ClienteDTO dto) {
 		Cliente cliente = new Cliente();
 		copiarEntidade(dto, cliente);
-		cliente = repositorio.save(cliente);
+		cliente = repository.save(cliente);
 		
 		return new ClienteDTO(cliente);
 	}
 	
 	public ClienteDTO atualizarCliente(Long id, ClienteDTO dto) {
 		try {
-			Cliente cliente = repositorio.getOne(id);
+			Cliente cliente = repository.getOne(id);
 			copiarEntidade(dto, cliente);
-			cliente = repositorio.save(cliente);
+			cliente = repository.save(cliente);
 			
 			return new ClienteDTO(cliente);
 		}
@@ -70,7 +68,7 @@ public class ClienteService {
 	
 	public void deletarCliente(Long id) {
 		try {
-			repositorio.deleteById(id);
+			repository.deleteById(id);
 		}
 		
 		catch (EmptyResultDataAccessException e) {

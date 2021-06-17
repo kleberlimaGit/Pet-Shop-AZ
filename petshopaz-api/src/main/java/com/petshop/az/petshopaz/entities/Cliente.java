@@ -1,64 +1,55 @@
-package com.petshop.az.petshopaz.entidades.dto;
+package com.petshop.az.petshopaz.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-import com.petshop.az.petshopaz.entidades.Cliente;
-
-public class ClienteDTO implements Serializable {
+@Entity
+public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "campo nome não pode ser vazio.")
+	@Column(nullable = false)
 	private String nome;
-
-	@NotBlank(message = "Campo logradouro não pode ser vazio")
+	
+	@Column(nullable = false)
 	private String logradouro;
-
-	@NotBlank(message = "Campo bairro não pode ser vazio")
+	@Column(nullable = false)
 	private String bairro;
-
-	@Size(min = 8, max = 10)
-	@NotBlank(message = "Campo CEP não pode ser vazio")
+	
+	@Column(nullable = false)
 	private String cep;
 	
-	@NotNull(message = "Campo número não pode ser vazio")
+	@Column(nullable = false)
 	private int numero;
-
-	@NotBlank(message = "Campo UF não pode ser vazio")
+	
+	@Column(nullable = false, length = 2)
 	private String uf;
-
-	@NotBlank(message = "Campo cidade não pode ser vazio")
+	
+	@Column(nullable = false)
 	private String cidade;
 
-	@NotBlank(message = "campo telefone não pode ser vazio.")
-	@Size(min = 15, max=15)
+	@Column(unique = true, nullable = false)
 	private String telefone;
 
-	Set<PetDTO> pets = new HashSet<>();
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	Set<Pet> pets = new HashSet<>();
 
-	public ClienteDTO() {
+	public Cliente() {
 
-	}
-
-	public ClienteDTO(Cliente cliente) {
-		id = cliente.getId();
-		nome = cliente.getNome();
-		bairro = cliente.getBairro();
-		cep = cliente.getCep();
-		cidade = cliente.getCidade();
-		logradouro = cliente.getLogradouro();
-		numero = cliente.getNumero();
-		uf = cliente.getUf();
-		telefone = cliente.getTelefone();
-		cliente.getPets().forEach(pet -> this.pets.add(new PetDTO(pet)));
 	}
 
 	public Long getId() {
@@ -133,7 +124,7 @@ public class ClienteDTO implements Serializable {
 		this.telefone = telefone;
 	}
 
-	public Set<PetDTO> getPets() {
+	public Set<Pet> getPets() {
 		return pets;
 	}
 

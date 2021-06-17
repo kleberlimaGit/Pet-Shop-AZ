@@ -1,4 +1,4 @@
-package com.petshop.az.petshopaz.entidades;
+package com.petshop.az.petshopaz.entities;
 
 import java.io.Serializable;
 

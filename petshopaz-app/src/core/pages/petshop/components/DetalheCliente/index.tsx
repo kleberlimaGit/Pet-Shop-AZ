@@ -19,7 +19,7 @@ type FormData = {
   bairro: string;
   cep: string;
   numero: number;
-  uf: Uf[];
+  uf: string;
   cidade: string;
   telefone: string;
 };

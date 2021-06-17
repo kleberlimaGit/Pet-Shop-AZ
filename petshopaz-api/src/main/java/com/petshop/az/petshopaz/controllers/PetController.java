@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.petshop.az.petshopaz.entidades.dto.PetDTO;
-import com.petshop.az.petshopaz.servicos.PetService;
+import com.petshop.az.petshopaz.entities.dto.PetDTO;
+import com.petshop.az.petshopaz.services.PetService;
 
 @RestController
 @RequestMapping(value = "/pets")

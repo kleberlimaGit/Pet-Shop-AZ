@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.petshop.az.petshopaz.entidades.dto.ClienteDTO;
-import com.petshop.az.petshopaz.servicos.ClienteService;
+import com.petshop.az.petshopaz.entities.dto.ClienteDTO;
+import com.petshop.az.petshopaz.services.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
@@ -34,7 +34,7 @@ public class ClienteController {
 	public ResponseEntity<Page<ClienteDTO>> buscarTodosClientes(
 			@RequestParam(value = "filtro", defaultValue = "") String filtro,
 			@RequestParam(value = "page", defaultValue = "0") Integer pagina,
-			@RequestParam(value = "linesPerPage", defaultValue = "9") Integer linhasPorPagina,
+			@RequestParam(value = "linesPerPage", defaultValue = "6") Integer linhasPorPagina,
 			@RequestParam(value = "direction", defaultValue = "DESC") String direction,
 			@RequestParam(value = "orderBy", defaultValue = "id") String orderBy){
 			PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direction), orderBy);

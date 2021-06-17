@@ -1,4 +1,4 @@
-package com.petshop.az.petshopaz.servicos;
+package com.petshop.az.petshopaz.services;
 
 import java.util.Optional;
 
@@ -12,29 +12,29 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.petshop.az.petshopaz.entidades.Raca;
-import com.petshop.az.petshopaz.entidades.dto.RacaDTO;
-import com.petshop.az.petshopaz.repositorios.RacaRepositorio;
-import com.petshop.az.petshopaz.servicos.exceptions.DatabaseException;
-import com.petshop.az.petshopaz.servicos.exceptions.ResourceNotFoundException;
+import com.petshop.az.petshopaz.entities.Raca;
+import com.petshop.az.petshopaz.entities.dto.RacaDTO;
+import com.petshop.az.petshopaz.repositories.RacaRepository;
+import com.petshop.az.petshopaz.services.exceptions.DatabaseException;
+import com.petshop.az.petshopaz.services.exceptions.ResourceNotFoundException;
 
 @Service
 @Transactional
 public class RacaService {
 	
 	@Autowired
-	private RacaRepositorio repositorio;
+	private RacaRepository repository;
 	
 	@Transactional(readOnly = true)
 	public Page<RacaDTO> BuscaPaginada(PageRequest pageRequest){
-		Page<Raca> page = repositorio.findAll(pageRequest);
+		Page<Raca> page = repository.findAll(pageRequest);
 		
 		return page.map(raca -> new RacaDTO(raca));
 	}
 	
 	@Transactional(readOnly = true)
 	public RacaDTO buscarPorId(Long id) {
-		Optional<Raca> obj = repositorio.findById(id);
+		Optional<Raca> obj = repository.findById(id);
 		Raca raca = obj.orElseThrow(() -> new ResourceNotFoundException("Raca não encontrado"));
 		
 		return new RacaDTO(raca);
@@ -43,16 +43,16 @@ public class RacaService {
 	public RacaDTO inserirRaca(RacaDTO dto) {
 		Raca raca = new Raca();
 		raca.setTipoRaca(dto.getTipoRaca().toUpperCase());
-		raca = repositorio.save(raca);
+		raca = repository.save(raca);
 		
 		return new RacaDTO(raca);
 	}
 	
 	public RacaDTO atualizarRaca(Long id, RacaDTO dto) {
 		try {
-			Raca raca = repositorio.getOne(id);
+			Raca raca = repository.getOne(id);
 			raca.setTipoRaca(dto.getTipoRaca());
-			raca = repositorio.save(raca);
+			raca = repository.save(raca);
 			return new RacaDTO(raca);
 		}
 		catch (EntityNotFoundException e) {
@@ -62,7 +62,7 @@ public class RacaService {
 	
 	public void deletarRaca(Long id) {
 		try {
-			repositorio.deleteById(id);
+			repository.deleteById(id);
 		}
 		catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Raça não encontrada. " + id);

@@ -1,10 +1,10 @@
-package com.petshop.az.petshopaz.entidades.dto;
+package com.petshop.az.petshopaz.entities.dto;
 
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 
-import com.petshop.az.petshopaz.entidades.Pet;
+import com.petshop.az.petshopaz.entities.Pet;
 
 public class PetDTO implements Serializable{
 
