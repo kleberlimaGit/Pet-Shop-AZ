@@ -34,16 +34,18 @@ const ClientCard = ({ cliente, onRemove }: Props) => {
           <h6>Endereço</h6>
           <div className="row">
             <div className="col-6">
-            <p>Cidade: {cliente.cidade}</p>
-            <p>UF: {cliente.uf}</p>
-              <p>Bairro: {cliente.bairro}</p>
+            <p><strong>Cidade:</strong> {cliente.cidade}</p>
+            <p><strong>UF:</strong> {cliente.uf}</p>
+              <p><strong>Bairro:</strong> {cliente.bairro}</p>
             </div>
 
             <div className="col-6">
-            <p>CEP: {cliente.cep}</p>
-              <p>Rua: {cliente.logradouro}</p>
-              <p>Nº: {cliente.numero}</p>
+            <p><strong>CEP:</strong> {cliente.cep}</p>
+              <p><strong>Nº:</strong> {cliente.numero}</p>
 
+            </div>
+            <div className="col-12">
+            <p><strong>Logradouro:</strong> {cliente.logradouro}</p>
             </div>
 
           </div>
