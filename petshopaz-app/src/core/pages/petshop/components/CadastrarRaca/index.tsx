@@ -69,6 +69,7 @@ const CadastrarRaca = () => {
             if(isEditing){
                 history.push('/racas/cadastrar')
                 setSuccess(false)
+                document.location.reload()
             }
             else{
                 document.location.reload()

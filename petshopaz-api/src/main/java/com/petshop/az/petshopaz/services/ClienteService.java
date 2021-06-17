@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.petshop.az.petshopaz.entities.Cliente;
 import com.petshop.az.petshopaz.entities.dto.ClienteDTO;
 import com.petshop.az.petshopaz.repositories.ClienteRepository;
-import com.petshop.az.petshopaz.services.exceptions.DatabaseException;
 import com.petshop.az.petshopaz.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -75,9 +73,6 @@ public class ClienteService {
 			throw new ResourceNotFoundException("Cliente não encontrado. id: " + id);
 		}
 		
-		catch (DataIntegrityViolationException  e) {
-			throw new DatabaseException("Violação de integridade");
-		}
 	}
 	
 	

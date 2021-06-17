@@ -84,7 +84,6 @@ const DetalheCliente = () => {
       .finally(() => {});
   }, []);
 
-  console.log();
   const onSubmit = (data: FormData) => {
     makeRequest({
       url: isEditing ? `/clientes/${idCliente}` : "/clientes",

@@ -51,6 +51,23 @@ public class Cliente implements Serializable {
 	public Cliente() {
 
 	}
+	
+	
+
+	public Cliente(Long id, String nome, String logradouro, String bairro, String cep, int numero, String uf,
+			String cidade, String telefone) {
+		this.id = id;
+		this.nome = nome;
+		this.logradouro = logradouro;
+		this.bairro = bairro;
+		this.cep = cep;
+		this.numero = numero;
+		this.uf = uf;
+		this.cidade = cidade;
+		this.telefone = telefone;
+	}
+
+
 
 	public Long getId() {
 		return id;
