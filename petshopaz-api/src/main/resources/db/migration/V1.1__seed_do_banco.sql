@@ -8,18 +8,6 @@ INSERT INTO CLIENTE (nome,bairro,cep,cidade,logradouro,numero,uf,telefone) VALUE
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 INSERT INTO RACA (tipo_raca) VALUES ('PASTOR ALEMÃO');
 INSERT INTO RACA (tipo_raca) VALUES ('LABRADOR');
 INSERT INTO RACA (tipo_raca) VALUES ('BULLDOG');
